@@ -1,0 +1,45 @@
+<mat-toolbar color="primary" class="header">
+
+  <!-- LOGO -->
+  <img
+    src="/logoprincipal.svg"
+    alt="DVM Store"
+    class="logo"
+    routerLink="/"
+  />
+
+  <!-- MENÚ PRINCIPAL -->
+  <nav class="menu">
+    <button mat-button routerLink="/productos">
+      Productos
+    </button>
+
+    <button mat-button routerLink="/celulares">
+      Celulares
+    </button>
+
+    <button mat-button routerLink="/liquidacion">
+      Liquidación
+    </button>
+
+    <button mat-button routerLink="/mas-vendidos">
+      Más vendidos
+    </button>
+  </nav>
+
+  <span class="spacer"></span>
+
+  <!-- ÍCONOS DERECHA -->
+  <div class="actions">
+    <!-- Carrito -->
+    <button mat-icon-button routerLink="/carrito">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+
+    <!-- Cuenta usuario -->
+    <button mat-icon-button routerLink="/login">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+
+</mat-toolbar>
