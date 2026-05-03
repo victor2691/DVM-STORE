@@ -1,42 +1,34 @@
-<mat-toolbar color="primary" class="header">
+<mat-toolbar class="header" color="primary">
 
-  <!-- LOGO -->
-  <img
-    src="/logoprincipal.svg"
-    alt="DVM Store"
-    class="logo"
-    routerLink="/"
-  />
+  <!-- Izquierda -->
+  <div class="left" routerLink="/">
 
-  <!-- MENÚ PRINCIPAL -->
-  <nav class="menu">
-    <button mat-button routerLink="/productos">
-      Productos
+   <img
+      src="/logo_2.svg"
+      alt="DVM Store"
+      class="logo"
+    />
+
+  </div>
+
+  <!-- Centro -->
+  <div class="center">
+    <button mat-button routerLink="/productos">Productos</button>
+    <button mat-button routerLink="/celulares">Celulares</button>
+    <button mat-button routerLink="/liquidacion">Liquidación</button>
+    <button mat-button routerLink="/mas-vendidos">Más vendidos</button>
+  </div>
+
+  <!-- Derecha -->
+  <div class="right">
+    <button mat-icon-button>
+      <mat-icon>search</mat-icon>
     </button>
 
-    <button mat-button routerLink="/celulares">
-      Celulares
-    </button>
-
-    <button mat-button routerLink="/liquidacion">
-      Liquidación
-    </button>
-
-    <button mat-button routerLink="/mas-vendidos">
-      Más vendidos
-    </button>
-  </nav>
-
-  <span class="spacer"></span>
-
-  <!-- ÍCONOS DERECHA -->
-  <div class="actions">
-    <!-- Carrito -->
     <button mat-icon-button routerLink="/carrito">
       <mat-icon>shopping_cart</mat-icon>
     </button>
 
-    <!-- Cuenta usuario -->
     <button mat-icon-button routerLink="/login">
       <mat-icon>account_circle</mat-icon>
     </button>

@@ -1,52 +1,75 @@
 {
-  "categories": [
+  "categorias": [
     {
       "id": "cat-1",
-      "name": "Laptops",
+      "nombre": "Laptops",
       "slug": "laptops",
-      "description": "Equipos portatiles para trabajo y gaming."
+      "descripcion": "Equipos portátiles para trabajo, estudio y gaming.",
+      "imagenUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900"
     },
     {
       "id": "cat-2",
-      "name": "Accesorios",
+      "nombre": "Accesorios",
       "slug": "accesorios",
-      "description": "Perifericos y complementos para tu setup."
+      "descripcion": "Periféricos y complementos para tu setup.",
+      "imagenUrl": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=900"
+    },
+    {
+      "id": "cat-3",
+      "nombre": "Celulares",
+      "slug": "celulares",
+      "descripcion": "Smartphones de última generación.",
+      "imagenUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900"
     }
   ],
-  "products": [
+
+  "productos": [
     {
       "id": "prod-1",
-      "name": "Laptop Pro 14",
-      "categoryId": "cat-1",
-      "price": 1499,
+      "nombre": "Laptop Pro 14",
+      "categoriaId": "cat-1",
+      "precio": 1499,
       "stock": 8,
-      "imageUrl": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=900",
-      "featured": true
+      "imagenUrl": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=900",
+      "destacado": true,
+      "oferta": false
     },
     {
       "id": "prod-2",
-      "name": "Mouse Inalambrico",
-      "categoryId": "cat-2",
-      "price": 39,
+      "nombre": "Mouse Inalámbrico RGB",
+      "categoriaId": "cat-2",
+      "precio": 39,
       "stock": 45,
-      "imageUrl": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=900",
-      "featured": false
+      "imagenUrl": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=900",
+      "destacado": false,
+      "oferta": true
+    },
+    {
+      "id": "prod-3",
+      "nombre": "Smartphone X12",
+      "categoriaId": "cat-3",
+      "precio": 899,
+      "stock": 20,
+      "imagenUrl": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=900",
+      "destacado": true,
+      "oferta": true
     }
   ],
-  "users": [
+
+  "usuarios": [
     {
       "id": "user-1",
-      "fullName": "Admin Ecommerce",
+      "nombreCompleto": "Administrador Ecommerce",
       "email": "admin@ecommerce.local",
-      "role": "admin",
-      "active": true
+      "rol": "admin",
+      "activo": true
     },
     {
       "id": "user-2",
-      "fullName": "Cliente Demo",
+      "nombreCompleto": "Cliente Demo",
       "email": "cliente@ecommerce.local",
-      "role": "customer",
-      "active": true
+      "rol": "cliente",
+      "activo": true
     }
   ]
 }
