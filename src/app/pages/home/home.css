@@ -5,7 +5,7 @@
       rgba(0, 0, 0, 0.85),
       rgba(0, 0, 0, 0.2)
     ),
-    url('/hero-laptop.jpg'); /* luego pones una imagen */
+  url('/computer2.jpg'); /* luego pones una imagen */
   background-size: cover;
   background-position: center;
   min-height: 70vh;
