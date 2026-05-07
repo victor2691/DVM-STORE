@@ -2,24 +2,17 @@
 <section class="hero">
   <div class="hero-content">
     <span class="badge">ENGINEERED FOR DOMINANCE</span>
-    <h1>
-      CORE X9<br />
-
-    </h1>
+    <h1>CORE X9<br /></h1>
 
     <p>
-      Introducing the world's most powerful workstation.
-      Featuring next-gen architecture and advanced cooling technology.
+      Introducing the world's most powerful workstation. Featuring next-gen architecture and
+      advanced cooling technology.
     </p>
 
     <div class="hero-actions">
-      <button mat-raised-button color="primary">
-        Configure Now
-      </button>
+      <button mat-raised-button color="primary">Configure Now</button>
 
-      <button mat-stroked-button color="primary">
-        View Technical Specs
-      </button>
+      <button mat-stroked-button color="primary">View Technical Specs</button>
     </div>
   </div>
 </section>
@@ -32,9 +25,10 @@
   </div>
 
   <div class="categories">
-    <div class="category-card">Laptops</div>
-    <div class="category-card">Components</div>
-    <div class="category-card">Peripherals</div>
+    @for (categoria of categoryService.categorias(); track categoria.id) {
+      <app-categoria-card-fondo-completo [category]="categoria">
+      </app-categoria-card-fondo-completo>
+    }
   </div>
 </section>
 
