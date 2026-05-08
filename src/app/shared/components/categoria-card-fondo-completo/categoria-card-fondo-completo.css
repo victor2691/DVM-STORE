@@ -1,55 +1,80 @@
-.category-card {
+/* ===== CATEGORY CARD ===== */
+mat-card.category-card {
   position: relative;
-
-  height: 220px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
 
   border-radius: 16px;
-
   overflow: hidden;
 
   background-size: cover;
   background-position: center;
 
-  display: flex;
-  align-items: flex-end;
+  padding: 0 !important;              
+  display: block;                     
+  
 
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  transition: transform 0.3s ease;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 
-.category-card:hover {
-  transform: scale(1.02);
+mat-card.category-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
 }
 
+/* 🔥 elimina padding interno del wrapper de Angular Material */
+mat-card.category-card .mat-mdc-card-content {
+  padding: 0 !important;
+}
+
+/* ===== OVERLAY ===== */
 .overlay {
-  width: 100%;
+  position: absolute;
+  inset: 0;
 
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 18px;
 
   background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.85),
-    rgba(0, 0, 0, 0.2)
+    rgba(0, 0, 0, 0.15)
   );
 
   color: white;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-h2 {
+mat-card.category-card:hover .overlay {
+  opacity: 1;
+}
+
+/* ===== TEXTO ===== */
+.title {
   margin: 0;
-
-  font-size: 1.5rem;
-
+  font-size: 1.4rem;
   font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-p {
-  margin-top: 8px;
+.description {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  opacity: 0.85;
 
-  font-size: 0.95rem;
-
-  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

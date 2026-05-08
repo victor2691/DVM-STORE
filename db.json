@@ -9,11 +9,12 @@
     },
     {
       "id": "cat-2",
-      "nombre": "Accesorios",
-      "slug": "accesorios",
-      "descripcion": "Periféricos y complementos para tu setup.",
-      "imagenUrl": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=900"
+      "nombre": "Periféricos",
+      "slug": "perifericos",
+      "descripcion": "Teclados, mouse, audífonos y otros periféricos para tu setup.",
+      "imagenUrl": "https://images.unsplash.com/photo-1577375729078-820d5283031c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
+
     {
       "id": "cat-3",
       "nombre": "Celulares",
@@ -22,7 +23,6 @@
       "imagenUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900"
     }
   ],
-
   "productos": [
     {
       "id": "prod-1",
@@ -55,7 +55,6 @@
       "oferta": true
     }
   ],
-
   "usuarios": [
     {
       "id": "user-1",

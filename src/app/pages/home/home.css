@@ -65,23 +65,3 @@
 }
 
 /* CARDS */
-.category-card,
-.product-card,
-.news-card {
-  background: #1e1e1e;
-  padding: 24px;
-  border-radius: 8px;
-  color: #fff;
-}
-
-.product-image {
-  height: 140px;
-  background: #2a2a2a;
-  margin-bottom: 12px;
-}
-
-.price {
-  color: #90caf9;
-  font-weight: bold;
-}
-
