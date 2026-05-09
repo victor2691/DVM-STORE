@@ -1,0 +1,24 @@
+<div class="panel-bienvenida">
+  <p class="ceja">Acceso seguro</p>
+  <h1>Inicia sesión con una experiencia simple y clara.</h1>
+  <p class="descripcion">
+    Accede a tu cuenta para revisar pedidos, guardar favoritos y continuar tu compra sin fricción.
+  </p>
+
+  <div class="credenciales-demo" aria-label="Credenciales de demostración">
+    <p>Credenciales demo</p>
+    <span>Admin: admin@ecommerce.local / Admin123!</span>
+    <span>Cliente: cliente@ecommerce.local / Cliente123!</span>
+  </div>
+
+  <div class="lista-ventajas" aria-label="Beneficios de iniciar sesión">
+    @for (ventaja of ventajas; track ventaja) {
+      <article class="item-ventaja">
+        <div class="icono-ventaja" aria-hidden="true">
+          <mat-icon>verified_user</mat-icon>
+        </div>
+        <p>{{ ventaja }}</p>
+      </article>
+    }
+  </div>
+</div>

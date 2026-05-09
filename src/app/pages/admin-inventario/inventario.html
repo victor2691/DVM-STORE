@@ -1,0 +1,194 @@
+<div class="inventario-shell">
+  <div class="inventario-header">
+    <div>
+      <p class="inventario-eyebrow">Panel de productos</p>
+      <h1>Gestión de Inventario</h1>
+      <p class="inventario-copy">Visualiza lo disponible por categoría y administra altas, cambios o bajas desde un solo lugar.</p>
+    </div>
+
+    <button mat-flat-button color="primary" (click)="abrirFormularioNuevo()" [disabled]="cargando()">
+      Agregar producto
+    </button>
+  </div>
+
+  <section class="resumen-grid" aria-label="Resumen del inventario">
+    <article class="resumen-card">
+      <span class="resumen-label">Productos</span>
+      <strong class="resumen-value">{{ resumen().total }}</strong>
+      <span class="resumen-meta">Total registrados</span>
+    </article>
+
+    <article class="resumen-card">
+      <span class="resumen-label">Activos</span>
+      <strong class="resumen-value">{{ resumen().activos }}</strong>
+      <span class="resumen-meta">Visibles para venta</span>
+    </article>
+
+    <article class="resumen-card">
+      <span class="resumen-label">Disponibles</span>
+      <strong class="resumen-value">{{ resumen().disponibles }}</strong>
+      <span class="resumen-meta">Con stock positivo</span>
+    </article>
+
+    <article class="resumen-card resumen-card--alert">
+      <span class="resumen-label">Agotados</span>
+      <strong class="resumen-value">{{ resumen().agotados }}</strong>
+      <span class="resumen-meta">Requieren reposición</span>
+    </article>
+  </section>
+
+  @if (mostrarFormulario()) {
+    <mat-card class="formulario-card" id="inventario-formulario">
+      <mat-card-header>
+        <mat-card-title>{{ editandoId() ? 'Editar producto' : 'Nuevo producto' }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="grid-form" [formGroup]="formulario" (ngSubmit)="guardar()">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" />
+            @if (formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched) {
+              <mat-error>Nombre requerido (mín. 3 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoriaId">
+              @for (cat of categorias(); track cat.id) {
+                <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
+              }
+            </mat-select>
+            @if (formulario.get('categoriaId')?.invalid && formulario.get('categoriaId')?.touched) {
+              <mat-error>Categoría requerida</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Precio</mat-label>
+            <input matInput type="number" step="0.01" formControlName="precio" />
+            @if (formulario.get('precio')?.invalid && formulario.get('precio')?.touched) {
+              <mat-error>Precio válido requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Stock</mat-label>
+            <input matInput type="number" formControlName="stock" />
+            @if (formulario.get('stock')?.invalid && formulario.get('stock')?.touched) {
+              <mat-error>Stock válido requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>URL Imagen</mat-label>
+            <input matInput formControlName="imagenUrl" />
+            @if (formulario.get('imagenUrl')?.invalid && formulario.get('imagenUrl')?.touched) {
+              <mat-error>URL de imagen requerida</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="descripcion" rows="3"></textarea>
+            @if (formulario.get('descripcion')?.invalid && formulario.get('descripcion')?.touched) {
+              <mat-error>Descripción requerida (mín. 10 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="toggle-group">
+            <mat-slide-toggle formControlName="destacado">Destacado</mat-slide-toggle>
+            <mat-slide-toggle formControlName="oferta">Oferta</mat-slide-toggle>
+            <mat-slide-toggle formControlName="activo">Activo</mat-slide-toggle>
+          </div>
+
+          <div class="button-group">
+            <button mat-raised-button color="primary" type="submit" [disabled]="formulario.invalid || cargando()">
+              {{ editandoId() ? 'Actualizar' : 'Crear' }}
+            </button>
+            <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (error(); as mensajeError) {
+    <div class="error-alert" role="alert">{{ mensajeError }}</div>
+  }
+
+  <div class="productos-grid">
+    @for (grupo of productosPorCategoria(); track grupo.categoria.id) {
+      <section class="categoria-seccion">
+        <div class="categoria-header">
+          <div>
+            <h2>{{ grupo.categoria.nombre }}</h2>
+            <p>{{ grupo.productos.length }} productos · {{ grupo.disponibles }} disponibles · {{ grupo.agotados }} agotados</p>
+          </div>
+          <strong class="categoria-total">${{ grupo.valorInventario | number: '1.0-0' }}</strong>
+        </div>
+
+        @if (grupo.productos.length > 0) {
+          <div class="productos-cards">
+            @for (producto of grupo.productos; track producto.id) {
+              <article class="producto-card">
+                <div class="producto-media">
+                  <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+
+                  <div class="producto-flags">
+                    @if (producto.destacado) {
+                      <span class="flag flag--dark">Destacado</span>
+                    }
+                    @if (producto.oferta) {
+                      <span class="flag flag--sale">Oferta</span>
+                    }
+                  </div>
+                </div>
+
+                <div class="producto-body">
+                  <div class="producto-topline">
+                    <h3>{{ producto.nombre }}</h3>
+                    <strong class="producto-price">${{ producto.precio | number: '1.2-2' }}</strong>
+                  </div>
+
+                  <p class="producto-description">{{ producto.descripcion }}</p>
+
+                  <div class="producto-meta">
+                    <span>Stock: {{ producto.stock }}</span>
+                    <span>ID: {{ producto.id }}</span>
+                  </div>
+
+                  <div class="producto-status">
+                    <span [class]="claseDisponibilidad(producto)">{{ estadoDisponibilidad(producto) }}</span>
+                    <span class="estado-chip" [class.estado-chip--inactivo]="!producto.activo" [class.estado-chip--activo]="producto.activo">
+                      {{ producto.activo ? 'Activo' : 'Oculto' }}
+                    </span>
+                  </div>
+
+                  <div class="producto-actions">
+                    <button mat-stroked-button type="button" (click)="editar(producto)" [disabled]="cargando()">
+                      Editar
+                    </button>
+
+                    <button mat-flat-button color="warn" type="button" (click)="eliminar(producto.id)" [disabled]="cargando()">
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="empty-category">
+            <mat-icon>inventory_2</mat-icon>
+            <div>
+              <strong>Sin productos en esta categoría</strong>
+              <p>Agrega un producto nuevo para que aparezca aquí.</p>
+            </div>
+          </div>
+        }
+      </section>
+    }
+  </div>
+</div>

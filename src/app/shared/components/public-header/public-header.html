@@ -1,0 +1,38 @@
+<mat-toolbar class="header" color="primary">
+
+  <!-- Izquierda -->
+  <div class="left" routerLink="/">
+
+   <img
+      src="/logofinal.svg"
+      alt="DVM Store"
+      class="logo"
+    />
+
+  </div>
+
+  <!-- Centro -->
+  <div class="center">
+    <button mat-button routerLink="/productos">Productos</button>
+    <button mat-button routerLink="/celulares">Celulares</button>
+    <button mat-button routerLink="/liquidacion">Liquidación</button>
+    <button mat-button routerLink="/mas-vendidos">Más vendidos</button>
+    @if (esAdmin()) {
+      <button mat-button routerLink="/admin/inventario">Inventario</button>
+    }
+  </div>
+
+  <!-- Derecha -->
+  <div class="right">
+    <button mat-button type="button">Buscar</button>
+
+    <button mat-button routerLink="/carrito">Carrito</button>
+
+    @if (authService.isAuthenticated()) {
+    <button mat-button type="button" (click)="logout()" aria-label="Cerrar sesión">Salir</button>
+    } @else {
+    <button mat-button routerLink="/login">Cuenta</button>
+    }
+  </div>
+
+</mat-toolbar>

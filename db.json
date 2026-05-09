@@ -1,0 +1,148 @@
+{
+  "categorias": [
+    {
+      "id": "cat-1",
+      "nombre": "Laptops",
+      "slug": "laptops",
+      "descripcion": "Equipos portátiles para trabajo, estudio y gaming.",
+      "imagenUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900",
+      "activo": true
+    },
+    {
+      "id": "cat-2",
+      "nombre": "Periféricos",
+      "slug": "perifericos",
+      "descripcion": "Teclados, mouse, audífonos y otros periféricos para tu setup.",
+      "imagenUrl": "https://images.unsplash.com/photo-1577375729078-820d5283031c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "activo": true
+    },
+    {
+      "id": "cat-3",
+      "nombre": "Celulares",
+      "slug": "celulares",
+      "descripcion": "Smartphones de última generación.",
+      "imagenUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900",
+      "activo": true
+    },
+    {
+      "id": "cat-4",
+      "nombre": "Monitores",
+      "slug": "monitores",
+      "descripcion": "Pantallas de alta resolución para mejorar tu espacio visual.",
+      "imagenUrl": "https://images.unsplash.com/photo-1551645120-d70bfe84c826?w=900",
+      "activo": true
+    },
+    {
+      "id": "cat-5",
+      "nombre": "Audio",
+      "slug": "audio",
+      "descripcion": "Audífonos, parlantes y equipos de sonido profesional.",
+      "imagenUrl": "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=900",
+      "activo": true
+    }
+  ],
+  "productos": [
+    {
+      "id": "prod-1",
+      "nombre": "Laptop Pro 14",
+      "categoriaId": "cat-1",
+      "precio": 1499,
+      "stock": 8,
+      "imagenUrl": "https://www.xmg.gg/wp-content/uploads/2025/08/XMG_GG_Pressemitteilungen_Article_XMG-CORE-15-M25-1536x480.jpg",
+      "descripcion": "Potente laptop con procesador de última generación, ideal para diseño gráfico y desarrollo de software exigente.",
+      "destacado": true,
+      "oferta": false,
+      "activo": true
+    },
+    {
+      "id": "prod-2",
+      "nombre": "Mouse Inalámbrico RGB",
+      "categoriaId": "cat-2",
+      "precio": 39,
+      "stock": 45,
+      "imagenUrl": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=900",
+      "descripcion": "Mouse ergonómico con sensor óptico de alta precisión y retroiluminación LED personalizable.",
+      "destacado": false,
+      "oferta": true,
+      "activo": true
+    },
+    {
+      "id": "prod-3",
+      "nombre": "Smartphone X12",
+      "categoriaId": "cat-3",
+      "precio": 899,
+      "stock": 20,
+      "imagenUrl": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=900",
+      "descripcion": "Pantalla OLED de 6.7 pulgadas, sistema de triple cámara pro y batería de larga duración para todo el día.",
+      "destacado": false,
+      "oferta": true,
+      "activo": true
+    },
+    {
+      "id": "prod-4",
+      "nombre": "Monitor UltraWide 34\"",
+      "categoriaId": "cat-4",
+      "precio": 549,
+      "stock": 12,
+      "imagenUrl": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=900",
+      "descripcion": "Monitor curvo con resolución QHD para una experiencia inmersiva en gaming y máxima productividad multitaréa.",
+      "destacado": false,
+      "oferta": false,
+      "activo": true
+    },
+    {
+      "id": "prod-5",
+      "nombre": "Teclado Mecánico Pro",
+      "categoriaId": "cat-2",
+      "precio": 120,
+      "stock": 30,
+      "imagenUrl": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=900",
+      "descripcion": "Teclado compacto con switches mecánicos táctiles, ideal para programadores y entusiastas del gaming.",
+      "destacado": false,
+      "oferta": false,
+      "activo": true
+    },
+    {
+      "id": "prod-6",
+      "nombre": "Audífonos Noise Cancelling",
+      "categoriaId": "cat-5",
+      "precio": 299,
+      "stock": 15,
+      "imagenUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900",
+      "descripcion": "Cancelación de ruido activa de primer nivel y audio de alta fidelidad para concentrarte en cualquier entorno.",
+      "destacado": false,
+      "oferta": true,
+      "activo": true
+    },
+    {
+      "nombre": "test",
+      "categoriaId": "cat-3",
+      "precio": 2000,
+      "stock": 30,
+      "imagenUrl": "data:image/jpeg;base64,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",
+      "descripcion": "Vapottest sdsssds",
+      "destacado": false,
+      "oferta": false,
+      "activo": true,
+      "id": "a0Im9Zm"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "user-1",
+      "nombreCompleto": "Administrador Ecommerce",
+      "email": "admin@ecommerce.local",
+      "password": "Admin123!",
+      "rol": "admin",
+      "activo": true
+    },
+    {
+      "id": "user-2",
+      "nombreCompleto": "Cliente Demo",
+      "email": "cliente@ecommerce.local",
+      "password": "Cliente123!",
+      "rol": "cliente",
+      "activo": true
+    }
+  ]
+}
