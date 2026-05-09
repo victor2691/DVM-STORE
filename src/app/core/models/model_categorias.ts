@@ -4,4 +4,5 @@ export interface Categoria {
   slug: string;
   descripcion: string;
   imagenUrl: string;
+    activo: boolean;
 }

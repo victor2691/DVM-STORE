@@ -1,0 +1,41 @@
+<section
+  class="hero"
+  [style.background-image]="'url(' + producto.imagenUrl + ')'">
+
+  <!-- Filtro oscuro para mejorar legibilidad -->
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <div class="text-wrapper">
+
+      <!-- Badge con el nombre o categoría -->
+      <span class="badge">
+       Nueva
+      </span>
+
+      <!-- Título Principal -->
+      <h1>
+        {{ producto.nombre }}
+      </h1>
+
+      <!-- Descripción dinámica -->
+      <p>
+        {{ producto.descripcion }}
+      </p>
+
+      <!-- Botones personalizados (Sin Material Design) -->
+      <div class="hero-actions">
+
+        <button class="btn primary-btn">
+          Comprar ahora
+        </button>
+
+        <button class="btn secondary-btn">
+          Ver detalles
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+</section>

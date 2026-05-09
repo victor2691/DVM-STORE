@@ -7,4 +7,10 @@ export interface Producto {
   imagenUrl: string;
   destacado: boolean;
   oferta: boolean;
+  descripcion: string;
+  activo: boolean;
+}
+// Esta es la que usarás en las Cards
+export interface ProductoVisual extends Producto {
+  nombreCategoria: string;
 }

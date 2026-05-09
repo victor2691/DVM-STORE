@@ -1,32 +1,40 @@
-import { Component, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { CategoriaCardFondoCompleto } from '../../shared/components/categoria-card-fondo-completo/categoria-card-fondo-completo';
 import { CategoryService } from '../../core/services/categoria-service';
 import { ProductosService } from '../../core/services/productos-services';
-import { Producto } from '../../core/models/mode_productos';
+import { HeroBanner } from '../../shared/components/hero-banner/hero-banner';
+import { CardProductoCarrito } from '../../shared/components/card-producto-carrito/card-producto-carrito';
 
 @Component({
   selector: 'app-home',
-  imports: [CategoriaCardFondoCompleto],
+  standalone: true,
+  imports: [CommonModule, CategoriaCardFondoCompleto, HeroBanner, CardProductoCarrito],
   templateUrl: './home.html',
-  styleUrl: './home.css',
+  styleUrls: ['./home.css'],
 })
-export class Home {
- categoryService  = inject(CategoryService);
-   productosService = inject(ProductosService);
-   
- productoHero = computed<Producto | null>(() => {
-    return this.productosService.productos()[0] ?? null;
+export class Home implements OnInit {
+  protected readonly categoryService = inject(CategoryService);
+  protected readonly productosService = inject(ProductosService);
+
+  ngOnInit(): void {
+    // Un solo llamado para cada cosa
+    this.categoryService.getCategorias({ limit: 3 });
+    this.productosService.getAllProductos();
+  }
+
+  // 1. Producto para el HERO (el primero destacado)
+  protected readonly productoHero = computed(() => {
+    return this.productosService.productosCompletos()
+      .find(p => p.destacado);
   });
 
+  // 2. Productos para el GRID (excluyendo el del Hero)
+  protected readonly productosGrid = computed(() => {
+    const hero = this.productoHero();
 
- ngOnInit(): void {
-   this.categoryService.getCategorias({ limit: 3 });
-   this.productosService.getProductos({ destacado: true, limit: 1 });
-   
-// tomar el primero como hero
-
-
- }
-
-
+    return this.productosService.productosCompletos()
+      .filter(p => p.id !== hero?.id)
+      .slice(0, 4);
+  });
 }
