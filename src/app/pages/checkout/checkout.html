@@ -1,0 +1,279 @@
+<div class="checkout">
+  @if (!ordenCreada) {
+    <div class="checkout-header">
+      <h1>Finalizar Compra</h1>
+      
+      <!-- Indicador de pasos -->
+      <div class="pasos">
+        <div [class.activo]="pasoActual === 'envio'" class="paso">
+          <span class="numero">1</span>
+          <span class="texto">Envío</span>
+        </div>
+        <div class="divisor"></div>
+        <div [class.activo]="pasoActual === 'pago'" class="paso">
+          <span class="numero">2</span>
+          <span class="texto">Pago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-container">
+      <!-- Columna izquierda: Formulario -->
+      <div class="formulario-section">
+        <!-- Paso 1: Información de Envío -->
+        @if (pasoActual === 'envio') {
+          <form [formGroup]="formularioEnvio" class="formulario">
+            <h2>Información de Envío</h2>
+
+            <div class="form-group">
+              <label for="nombreCompleto">Nombre Completo *</label>
+              <input
+                type="text"
+                id="nombreCompleto"
+                formControlName="nombreCompleto"
+                placeholder="Tu nombre"
+                class="input"
+              />
+              @if (formularioEnvio.get('nombreCompleto')?.touched && formularioEnvio.get('nombreCompleto')?.invalid) {
+                <span class="error">
+                  {{ obtenerErrorMensaje('nombreCompleto', formularioEnvio) }}
+                </span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                placeholder="tu@email.com"
+                class="input"
+              />
+              @if (formularioEnvio.get('email')?.touched && formularioEnvio.get('email')?.invalid) {
+                <span class="error">
+                  {{ obtenerErrorMensaje('email', formularioEnvio) }}
+                </span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Teléfono *</label>
+              <input
+                type="tel"
+                id="telefono"
+                formControlName="telefono"
+                placeholder="+1 (555) 000-0000"
+                class="input"
+              />
+              @if (formularioEnvio.get('telefono')?.touched && formularioEnvio.get('telefono')?.invalid) {
+                <span class="error">
+                  {{ obtenerErrorMensaje('telefono', formularioEnvio) }}
+                </span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="direccion">Dirección *</label>
+              <input
+                type="text"
+                id="direccion"
+                formControlName="direccion"
+                placeholder="Calle y número"
+                class="input"
+              />
+              @if (formularioEnvio.get('direccion')?.touched && formularioEnvio.get('direccion')?.invalid) {
+                <span class="error">
+                  {{ obtenerErrorMensaje('direccion', formularioEnvio) }}
+                </span>
+              }
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ciudad">Ciudad *</label>
+                <input
+                  type="text"
+                  id="ciudad"
+                  formControlName="ciudad"
+                  placeholder="Ciudad"
+                  class="input"
+                />
+                @if (formularioEnvio.get('ciudad')?.touched && formularioEnvio.get('ciudad')?.invalid) {
+                  <span class="error">
+                    {{ obtenerErrorMensaje('ciudad', formularioEnvio) }}
+                  </span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="codigoPostal">Código Postal *</label>
+                <input
+                  type="text"
+                  id="codigoPostal"
+                  formControlName="codigoPostal"
+                  placeholder="12345"
+                  class="input"
+                />
+                @if (formularioEnvio.get('codigoPostal')?.touched && formularioEnvio.get('codigoPostal')?.invalid) {
+                  <span class="error">
+                    {{ obtenerErrorMensaje('codigoPostal', formularioEnvio) }}
+                  </span>
+                }
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button (click)="volverACarrito()" class="btn-secundario">
+                Volver al carrito
+              </button>
+              <button (click)="continuarAPago()" class="btn-primario">
+                Continuar al pago
+              </button>
+            </div>
+          </form>
+        }
+
+        <!-- Paso 2: Información de Pago -->
+        @if (pasoActual === 'pago') {
+          <form [formGroup]="formularioMetodoPago" class="formulario">
+            <h2>Información de Pago</h2>
+
+            <div class="form-group">
+              <label for="numeroTarjeta">Número de Tarjeta *</label>
+              <input
+                type="text"
+                id="numeroTarjeta"
+                formControlName="numeroTarjeta"
+                placeholder="1234 5678 9012 3456"
+                class="input"
+                maxlength="16"
+              />
+              @if (formularioMetodoPago.get('numeroTarjeta')?.touched && formularioMetodoPago.get('numeroTarjeta')?.invalid) {
+                <span class="error">
+                  {{ obtenerErrorMensaje('numeroTarjeta', formularioMetodoPago) }}
+                </span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="nombreTarjeta">Nombre en la Tarjeta *</label>
+              <input
+                type="text"
+                id="nombreTarjeta"
+                formControlName="nombreTarjeta"
+                placeholder="JUAN PEREZ"
+                class="input"
+              />
+              @if (formularioMetodoPago.get('nombreTarjeta')?.touched && formularioMetodoPago.get('nombreTarjeta')?.invalid) {
+                <span class="error">
+                  {{ obtenerErrorMensaje('nombreTarjeta', formularioMetodoPago) }}
+                </span>
+              }
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fechaVencimiento">Vencimiento (MM/AA) *</label>
+                <input
+                  type="text"
+                  id="fechaVencimiento"
+                  formControlName="fechaVencimiento"
+                  placeholder="12/25"
+                  class="input"
+                  maxlength="5"
+                />
+                @if (formularioMetodoPago.get('fechaVencimiento')?.touched && formularioMetodoPago.get('fechaVencimiento')?.invalid) {
+                  <span class="error">
+                    {{ obtenerErrorMensaje('fechaVencimiento', formularioMetodoPago) }}
+                  </span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="cvv">CVV *</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  formControlName="cvv"
+                  placeholder="123"
+                  class="input"
+                  maxlength="3"
+                />
+                @if (formularioMetodoPago.get('cvv')?.touched && formularioMetodoPago.get('cvv')?.invalid) {
+                  <span class="error">
+                    {{ obtenerErrorMensaje('cvv', formularioMetodoPago) }}
+                  </span>
+                }
+              </div>
+            </div>
+
+            <div class="advertencia">
+              <strong>⚠️ Sitio de Demo:</strong> Usa cualquier número de tarjeta para probar
+            </div>
+
+            <div class="form-actions">
+              <button (click)="pasoActual = 'envio'" class="btn-secundario">
+                Volver a envío
+              </button>
+              <button (click)="procesarPago()" class="btn-primario">
+                Completar Compra
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+
+      <!-- Columna derecha: Resumen -->
+      <div class="resumen-section">
+        <h3>Resumen de Compra</h3>
+
+        <div class="items-resumen">
+          @for (item of cartService.obtenerItems(); track item.id) {
+            <div class="item-resumen">
+              <div>
+                <p class="producto-nombre">{{ item.nombre }}</p>
+                <p class="producto-qty">Cantidad: {{ item.cantidad }}</p>
+              </div>
+              <span class="precio">{{ (item.precio * item.cantidad) | currency }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="divisor"></div>
+
+        <div class="calculo-total">
+          <div class="fila">
+            <span>Subtotal:</span>
+            <span>{{ cartService.totalPrecio() | currency }}</span>
+          </div>
+          <div class="fila">
+            <span>Envío:</span>
+            <span class="envio-gratis">Gratis</span>
+          </div>
+          <div class="fila total">
+            <span>Total:</span>
+            <span>{{ cartService.totalPrecio() | currency }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Confirmación de Orden -->
+  @if (ordenCreada) {
+    <div class="confirmacion">
+      <div class="icono-exito">✓</div>
+      <h2>¡Compra Completada!</h2>
+      <p class="numero-orden">Número de orden: <strong>{{ numeroOrden }}</strong></p>
+      <p class="mensaje">Tu compra ha sido procesada exitosamente.</p>
+      <p class="detalles">Recibirás un email de confirmación en breve con los detalles de tu pedido.</p>
+
+      <div class="acciones-confirmacion">
+        <button (click)="irAlHome()" class="btn-primario">
+          Volver al inicio
+        </button>
+      </div>
+    </div>
+  }
+</div>

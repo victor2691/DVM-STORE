@@ -1,0 +1,102 @@
+<div class="shopping-cart">
+  <div class="cart-header">
+    <h1>Carrito de Compras</h1>
+    <button (click)="volverAlCatalogo()" class="btn-volver">← Volver al catálogo</button>
+  </div>
+
+  @if (cartService.obtenerItems().length === 0) {
+    <div class="empty-cart">
+      <div class="empty-icon">🛒</div>
+      <h2>Tu carrito está vacío</h2>
+      <p>No tienes productos agregados. ¡Ve al catálogo y agrega algunos!</p>
+      <button (click)="volverAlCatalogo()" class="btn-catalogo">Ir al catálogo</button>
+    </div>
+  }
+
+  @if (cartService.obtenerItems().length > 0) {
+    <div class="cart-container">
+      <!-- Tabla de productos -->
+      <div class="cart-items">
+        <div class="cart-table-header">
+          <div class="col-producto">Producto</div>
+          <div class="col-precio">Precio</div>
+          <div class="col-cantidad">Cantidad</div>
+          <div class="col-subtotal">Subtotal</div>
+          <div class="col-acciones">Acciones</div>
+        </div>
+
+        @for (item of cartService.obtenerItems(); track item.id) {
+          <div class="cart-item">
+            <div class="col-producto">
+              <img [src]="item.imagenUrl" [alt]="item.nombre" class="item-image" />
+              <div class="item-info">
+                <h3>{{ item.nombre }}</h3>
+                <p>{{ item.descripcion | slice: 0: 50 }}...</p>
+              </div>
+            </div>
+
+            <div class="col-precio">
+              {{ item.precio | currency }}
+            </div>
+
+            <div class="col-cantidad">
+              <div class="qty-control">
+                <button (click)="actualizarCantidad(item.id, item.cantidad - 1)" class="qty-btn">−</button>
+                <input
+                  type="number"
+                  [value]="item.cantidad"
+                  (change)="actualizarCantidad(item.id, $any($event.target).value)"
+                  min="1"
+                  class="qty-input"
+                />
+                <button (click)="actualizarCantidad(item.id, item.cantidad + 1)" class="qty-btn">+</button>
+              </div>
+            </div>
+
+            <div class="col-subtotal">
+              {{ (item.precio * item.cantidad) | currency }}
+            </div>
+
+            <div class="col-acciones">
+              <button (click)="eliminarProducto(item.id)" class="btn-eliminar">
+                Eliminar
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Resumen -->
+      <div class="cart-summary">
+        <h2>Resumen de Compra</h2>
+
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span>{{ cartService.totalPrecio() | currency }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Envío:</span>
+          <span class="free">Gratis</span>
+        </div>
+
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span>{{ cartService.totalPrecio() | currency }}</span>
+        </div>
+
+        <button (click)="continuarCompra()" class="btn-checkout">
+          Continuar con la compra
+        </button>
+
+        <button (click)="vaciarCarrito()" class="btn-vaciar">
+          Vaciar carrito
+        </button>
+
+        <button (click)="volverAlCatalogo()" class="btn-seguir-comprando">
+          Seguir comprando
+        </button>
+      </div>
+    </div>
+  }
+</div>

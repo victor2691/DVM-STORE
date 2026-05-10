@@ -1,0 +1,86 @@
+<div class="product-details">
+  @if (!productoActual()) {
+    <div class="loading">
+      <p>Cargando producto...</p>
+    </div>
+  }
+
+  @if (productoActual()) {
+    <div class="details-container">
+      <!-- Botón volver -->
+      <button (click)="volver()" class="btn-volver">← Volver al catálogo</button>
+
+      <div class="details-content">
+        <!-- Imagen principal -->
+        <div class="image-section">
+          <img [src]="productoActual()?.imagenUrl" [alt]="productoActual()?.nombre" class="main-image" />
+          @if (productoActual()?.oferta) {
+            <span class="offer-badge">En Oferta</span>
+          }
+        </div>
+
+        <!-- Información del producto -->
+        <div class="info-section">
+          <span class="categoria">{{ productoActual()?.nombreCategoria }}</span>
+          <h1>{{ productoActual()?.nombre }}</h1>
+
+          <div class="price-section">
+            <span class="precio">{{ productoActual()?.precio | currency }}</span>
+          </div>
+
+          <p class="descripcion">{{ productoActual()?.descripcion }}</p>
+
+          <!-- Especificaciones -->
+          <div class="specs">
+            <div class="spec">
+              <span class="spec-label">Disponibilidad:</span>
+              <span class="spec-value">En stock</span>
+            </div>
+            <div class="spec">
+              <span class="spec-label">SKU:</span>
+              <span class="spec-value">{{ productoActual()?.id }}</span>
+            </div>
+          </div>
+
+          <!-- Agregar al carrito -->
+          <div class="purchase-section">
+            <div class="cantidad-selector">
+              <label for="cantidad">Cantidad:</label>
+              <div class="input-group">
+                <button (click)="cantidad = Math.max(1, cantidad - 1)" class="qty-btn">−</button>
+                <input
+                  type="number"
+                  id="cantidad"
+                  [(ngModel)]="cantidad"
+                  min="1"
+                  class="qty-input"
+                />
+                <button (click)="cantidad = cantidad + 1" class="qty-btn">+</button>
+              </div>
+            </div>
+
+            <button (click)="agregarAlCarrito()" class="btn-agregar">
+              Agregar al carrito
+            </button>
+
+            @if (mensajeAgregado) {
+              <div class="success-message">
+                ✓ Producto agregado al carrito
+              </div>
+            }
+          </div>
+
+          <button (click)="irAlCarrito()" class="btn-carrito">
+            Ir al carrito ({{ cartService.totalItems() }})
+          </button>
+        </div>
+      </div>
+
+      <!-- Descripción completa -->
+      <div class="full-description">
+        <h2>Información adicional</h2>
+        <p>{{ productoActual()?.descripcion }}</p>
+      </div>
+    </div>
+  }
+</div>

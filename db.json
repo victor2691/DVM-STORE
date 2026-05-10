@@ -5,7 +5,7 @@
       "nombre": "Laptops",
       "slug": "laptops",
       "descripcion": "Equipos portátiles para trabajo, estudio y gaming.",
-      "imagenUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900",
+      "imagenUrl": "/computer1.jpg",
       "activo": true
     },
     {
@@ -13,15 +13,15 @@
       "nombre": "Periféricos",
       "slug": "perifericos",
       "descripcion": "Teclados, mouse, audífonos y otros periféricos para tu setup.",
-      "imagenUrl": "https://images.unsplash.com/photo-1577375729078-820d5283031c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-   "activo": true
+      "imagenUrl": "/computer2.jpg",
+      "activo": true
     },
     {
       "id": "cat-3",
       "nombre": "Celulares",
       "slug": "celulares",
       "descripcion": "Smartphones de última generación.",
-      "imagenUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900",
+      "imagenUrl": "/computer1.jpg",
       "activo": true
     },
     {
@@ -29,7 +29,7 @@
       "nombre": "Monitores",
       "slug": "monitores",
       "descripcion": "Pantallas de alta resolución para mejorar tu espacio visual.",
-      "imagenUrl": "https://images.unsplash.com/photo-1551645120-d70bfe84c826?w=900",
+      "imagenUrl": "/computer2.jpg",
       "activo": true
     },
     {
@@ -37,7 +37,7 @@
       "nombre": "Audio",
       "slug": "audio",
       "descripcion": "Audífonos, parlantes y equipos de sonido profesional.",
-      "imagenUrl": "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=900",
+      "imagenUrl": "/computer1.jpg",
       "activo": true
     }
   ],
@@ -48,7 +48,7 @@
       "categoriaId": "cat-1",
       "precio": 1499,
       "stock": 8,
-      "imagenUrl": "https://www.xmg.gg/wp-content/uploads/2025/08/XMG_GG_Pressemitteilungen_Article_XMG-CORE-15-M25-1536x480.jpg",
+      "imagenUrl": "/computer1.jpg",
       "descripcion": "Potente laptop con procesador de última generación, ideal para diseño gráfico y desarrollo de software exigente.",
       "destacado": true,
       "oferta": false,
@@ -60,7 +60,7 @@
       "categoriaId": "cat-2",
       "precio": 39,
       "stock": 45,
-      "imagenUrl": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=900",
+      "imagenUrl": "/computer2.jpg",
       "descripcion": "Mouse ergonómico con sensor óptico de alta precisión y retroiluminación LED personalizable.",
       "destacado": false,
       "oferta": true,
@@ -72,7 +72,7 @@
       "categoriaId": "cat-3",
       "precio": 899,
       "stock": 20,
-      "imagenUrl": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=900",
+      "imagenUrl": "/computer1.jpg",
       "descripcion": "Pantalla OLED de 6.7 pulgadas, sistema de triple cámara pro y batería de larga duración para todo el día.",
       "destacado": false,
       "oferta": true,
@@ -84,7 +84,7 @@
       "categoriaId": "cat-4",
       "precio": 549,
       "stock": 12,
-      "imagenUrl": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=900",
+      "imagenUrl": "/computer2.jpg",
       "descripcion": "Monitor curvo con resolución QHD para una experiencia inmersiva en gaming y máxima productividad multitaréa.",
       "destacado": false,
       "oferta": false,
@@ -96,7 +96,7 @@
       "categoriaId": "cat-2",
       "precio": 120,
       "stock": 30,
-      "imagenUrl": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=900",
+      "imagenUrl": "/computer1.jpg",
       "descripcion": "Teclado compacto con switches mecánicos táctiles, ideal para programadores y entusiastas del gaming.",
       "destacado": false,
       "oferta": false,
@@ -108,7 +108,7 @@
       "categoriaId": "cat-5",
       "precio": 299,
       "stock": 15,
-      "imagenUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900",
+      "imagenUrl": "/computer2.jpg",
       "descripcion": "Cancelación de ruido activa de primer nivel y audio de alta fidelidad para concentrarte en cualquier entorno.",
       "destacado": false,
       "oferta": true,
