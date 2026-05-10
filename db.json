@@ -51,7 +51,7 @@
       "imagenUrl": "https://www.xmg.gg/wp-content/uploads/2025/08/XMG_GG_Pressemitteilungen_Article_XMG-CORE-15-M25-1536x480.jpg",
       "descripcion": "Potente laptop con procesador de última generación, ideal para diseño gráfico y desarrollo de software exigente.",
       "destacado": true,
-      "oferta": false,
+      "oferta": true,
       "activo": true
     },
     {
