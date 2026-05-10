@@ -12,25 +12,14 @@
   margin-bottom: 12px;
 }
 
-.social-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.06);
-  color: #f8fafc;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+.social-icon {
+  width: 28px;
+  height: 28px;
+  filter: invert(1) opacity(0.75);
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.social-badge:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.38);
+.social-icon:hover {
+  opacity: 1;
   transform: scale(1.15);
 }

@@ -1,0 +1,60 @@
+<div class="product-catalog">
+  <div class="catalog-header">
+    <h1>Catálogo de Productos</h1>
+    <p>Explora todos nuestros productos</p>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="busqueda"
+        placeholder="Buscar productos..."
+        class="search-input"
+      />
+    </div>
+
+    <div class="category-filter">
+      <select [(ngModel)]="filtroCategoria" class="filter-select">
+        <option value="">Todas las categorías</option>
+        @for (cat of categoryService.categorias(); track cat.id) {
+          <option [value]="cat.id">{{ cat.nombre }}</option>
+        }
+      </select>
+    </div>
+
+    @if (filtroCategoria || busqueda) {
+      <button (click)="limpiarFiltros()" class="clear-btn">
+        Limpiar filtros
+      </button>
+    }
+  </div>
+
+  <div class="products-section">
+    @if (productosService.cargando()) {
+      <div class="loading">
+        <p>Cargando productos...</p>
+      </div>
+    }
+
+    @if (!productosService.cargando() && productosFiltrados().length === 0) {
+      <div class="empty-state">
+        <p>No hay productos que coincidan con tu búsqueda</p>
+      </div>
+    }
+
+    @if (!productosService.cargando() && productosFiltrados().length > 0) {
+      <div class="products-grid">
+        @for (producto of productosFiltrados(); track producto.id) {
+          <div class="product-item" (click)="verDetalle(producto.id)">
+            <app-card-producto-carrito [producto]="producto"></app-card-producto-carrito>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="results-info">
+    <p>Mostrando {{ productosFiltrados().length }} producto(s)</p>
+  </div>
+</div>

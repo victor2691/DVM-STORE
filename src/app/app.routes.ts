@@ -6,33 +6,62 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { Home } from './pages/home/home';
 
 export const routes: Routes = [
-	{
-		path: '',
-		component: PublicLayout,
-		children: [
-			{ path: '', component: Home },
-			{
-				path: 'login',
-				canMatch: [redirectIfAuthenticatedGuard],
-				loadComponent: () =>
-					import('./pages/login/login').then((module) => module.LoginPage),
-			},
-		],
-	},
-	{
-		path: 'admin',
-		component: AdminLayout,
-		canActivate: [soloAdminGuard],
-		children: [
-			{ path: '', pathMatch: 'full', redirectTo: 'inventario' },
-			{
-				path: 'inventario',
-				loadComponent: () =>
-					import('./pages/admin-inventario/inventario').then(
-						(module) => module.InventarioPage
-					),
-			},
-		],
-	},
-	{ path: '**', redirectTo: '' },
+  // --- RUTAS PÚBLICAS (Tienda) ---
+  {
+    path: '',
+    component: PublicLayout,
+    children: [
+      { path: '', component: Home },
+      {
+        path: 'catalogo',
+        loadComponent: () => import('./pages/product-catalog/product-catalog').then(m => m.ProductCatalog)
+      },
+      {
+        path: 'productos/:id',
+        loadComponent: () => import('./pages/product-details/product-details').then(m => m.ProductDetails)
+      },
+      {
+        path: 'carrito',
+        loadComponent: () => import('./pages/shopping-cart/shopping-cart').then(m => m.ShoppingCart)
+      },
+      {
+        path: 'checkout',
+        loadComponent: () => import('./pages/checkout/checkout').then(m => m.Checkout)
+      },
+      {
+        path: 'liquidacion',
+        loadComponent: () => import('./pages/liquidacion/liquidacion').then(m => m.Liquidacion)
+      },
+      {
+        path: 'mas-vendidos',
+        loadComponent: () => import('./pages/mas-vendidos/mas-vendidos').then(m => m.MasVendidos)
+      },
+      {
+        path: 'login',
+        canMatch: [redirectIfAuthenticatedGuard],
+        loadComponent: () => import('./pages/login/login').then((m) => m.LoginPage),
+      },
+    ],
+  },
+
+  // --- RUTAS DE ADMINISTRACIÓN (Protegidas) ---
+  {
+    path: 'admin',
+    component: AdminLayout,
+    canActivate: [soloAdminGuard],
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard)
+      },
+      {
+        path: 'inventario',
+        loadComponent: () => import('./pages/admin-inventario/inventario').then(m => m.InventarioPage),
+      },
+    ],
+  },
+
+  // --- COMODÍN ---
+  { path: '**', redirectTo: '' },
 ];

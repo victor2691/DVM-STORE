@@ -22,6 +22,14 @@ export class AuthService {
   readonly usuario = signal<UsuarioAutenticado | null>(this.restoreSession());
   readonly isAuthenticated = computed(() => this.usuario() !== null);
 
+  get usuarioActual(): UsuarioAutenticado | null {
+    return this.usuario();
+  }
+
+  get estaAutenticado(): boolean {
+    return this.isAuthenticated();
+  }
+
   async login(credentials: LoginCredentials): Promise<UsuarioAutenticado> {
     this.cargando.set(true);
     this.error.set(null);

@@ -1,0 +1,58 @@
+<div class="catalogo">
+  <div class="header-catalogo">
+    <h1>Liquidación</h1>
+    <p>Aprovecha nuestras ofertas especiales con descuentos increíbles</p>
+  </div>
+
+  <div class="filtros">
+    <input
+      type="text"
+      [(ngModel)]="busqueda"
+      placeholder="Buscar productos..."
+      class="input-busqueda"
+    />
+    <select [(ngModel)]="filtroCategoria" class="input-filtro">
+      <option value="">Todas las categorías</option>
+      @for (cat of categoryService.categorias(); track cat.id) {
+        <option [value]="cat.id">{{ cat.nombre }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="productos-grid">
+    @if (productosFiltrados().length > 0) {
+      @for (producto of productosFiltrados(); track producto.id) {
+        <div class="card-producto" [routerLink]="['/productos', producto.id]">
+          <div class="imagen-container">
+            <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+            @if (producto.oferta) {
+              <span class="badge-oferta">Oferta</span>
+            }
+          </div>
+          <div class="info-producto">
+            <span class="categoria">{{ producto.nombreCategoria }}</span>
+            <h3>{{ producto.nombre }}</h3>
+            <div class="precio-carrito">
+              <span class="precio">${{ producto.precio | number: '1.2-2' }}</span>
+              <button
+                (click)="agregarAlCarrito(producto.id); $event.stopPropagation()"
+                class="btn-carrito"
+                title="Agregar al carrito"
+              >
+                <img src="/shopping-cart-icon.svg" alt="Carrito" />
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="sin-resultados">
+        <p>No hay productos en liquidación con esos filtros</p>
+      </div>
+    }
+  </div>
+
+  <p class="total-productos">
+    Mostrando {{ productosFiltrados().length }} producto(s)
+  </p>
+</div>
