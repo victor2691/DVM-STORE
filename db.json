@@ -50,7 +50,7 @@
       "stock": 8,
       "imagenUrl": "https://www.xmg.gg/wp-content/uploads/2025/08/XMG_GG_Pressemitteilungen_Article_XMG-CORE-15-M25-1536x480.jpg",
       "descripcion": "Potente laptop con procesador de última generación, ideal para diseño gráfico y desarrollo de software exigente.",
-      "destacado": true,
+      "destacado": false,
       "oferta": false,
       "activo": true
     },
@@ -110,7 +110,7 @@
       "stock": 15,
       "imagenUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900",
       "descripcion": "Cancelación de ruido activa de primer nivel y audio de alta fidelidad para concentrarte en cualquier entorno.",
-      "destacado": false,
+      "destacado": true,
       "oferta": true,
       "activo": true
     },

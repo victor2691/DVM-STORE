@@ -1,9 +1,10 @@
 <mat-card
   class="category-card"
-  [style.background-image]="'url(' + category.imagenUrl + ')'"
+  [style.background-image]="'url(' + category().imagenUrl + ')'"
+  [routerLink]="['/categoria', category().id]"
 >
   <div class="overlay">
-    <h2 class="title">{{ category.nombre }}</h2>
-    <p class="description">{{ category.descripcion }}</p>
+    <h2 class="title">{{ category().nombre }}</h2>
+    <p class="description">{{ category().descripcion }}</p>
   </div>
 </mat-card>

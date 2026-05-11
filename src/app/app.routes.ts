@@ -33,6 +33,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/liquidacion/liquidacion').then(m => m.Liquidacion)
       },
       {
+        path: 'categoria/:id',
+        loadComponent: () => import('./pages/categoria-productos/categoria-productos').then(m => m.CategoriaProductos)
+      },
+      {
         path: 'mas-vendidos',
         loadComponent: () => import('./pages/mas-vendidos/mas-vendidos').then(m => m.MasVendidos)
       },

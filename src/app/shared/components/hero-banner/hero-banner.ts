@@ -1,5 +1,5 @@
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
 import { Producto } from '../../../core/models/mode_productos';
 
 @Component({
@@ -7,9 +7,9 @@ import { Producto } from '../../../core/models/mode_productos';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './hero-banner.html',
-  styleUrls: ['./hero-banner.css'],
+  styleUrl: './hero-banner.css',
 })
 export class HeroBanner {
-@Input() producto!: Producto;
+  producto = input.required<Producto>();
 }
 

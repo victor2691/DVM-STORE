@@ -11,7 +11,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
+  cursor: pointer;
 }
 
 .product-card:hover {

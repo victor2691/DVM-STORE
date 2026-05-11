@@ -1,7 +1,7 @@
 <div class="catalogo">
   <div class="header-catalogo">
-    <h1>Más Vendidos</h1>
-    <p>Los productos más populares y demandados de nuestro catálogo</p>
+    <h1>{{ categoriaNombre() }}</h1>
+    <p>Explora todos nuestros productos de esta categoría</p>
   </div>
 
   <div class="filtros">
@@ -11,12 +11,6 @@
       placeholder="Buscar productos..."
       class="input-busqueda"
     />
-    <select [(ngModel)]="filtroCategoria" class="input-filtro">
-      <option value="">Todas las categorías</option>
-      @for (cat of categoryService.categorias(); track cat.id) {
-        <option [value]="cat.id">{{ cat.nombre }}</option>
-      }
-    </select>
   </div>
 
   <div class="productos-grid">
@@ -26,7 +20,7 @@
       }
     } @else {
       <div class="sin-resultados">
-        <p>No hay productos disponibles con esos filtros</p>
+        <p>No hay productos disponibles en esta categoría</p>
       </div>
     }
   </div>

@@ -22,28 +22,7 @@
   <div class="productos-grid">
     @if (productosFiltrados().length > 0) {
       @for (producto of productosFiltrados(); track producto.id) {
-        <div class="card-producto" [routerLink]="['/productos', producto.id]">
-          <div class="imagen-container">
-            <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
-            @if (producto.oferta) {
-              <span class="badge-oferta">Oferta</span>
-            }
-          </div>
-          <div class="info-producto">
-            <span class="categoria">{{ producto.nombreCategoria }}</span>
-            <h3>{{ producto.nombre }}</h3>
-            <div class="precio-carrito">
-              <span class="precio">${{ producto.precio | number: '1.2-2' }}</span>
-              <button
-                (click)="agregarAlCarrito(producto.id); $event.stopPropagation()"
-                class="btn-carrito"
-                title="Agregar al carrito"
-              >
-                <img src="/shopping-cart-icon.svg" alt="Carrito" />
-              </button>
-            </div>
-          </div>
-        </div>
+        <app-card-producto-carrito [producto]="producto"></app-card-producto-carrito>
       }
     } @else {
       <div class="sin-resultados">

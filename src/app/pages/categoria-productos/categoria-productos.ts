@@ -1,35 +1,49 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ProductosService } from '../../core/services/productos-services';
 import { CategoryService } from '../../core/services/categoria-service';
 import { computed } from '@angular/core';
 import { CardProductoCarrito } from '../../shared/components/card-producto-carrito/card-producto-carrito';
 
 @Component({
-  selector: 'app-liquidacion',
+  selector: 'app-categoria-productos',
   standalone: true,
   imports: [CommonModule, FormsModule, CardProductoCarrito],
-  templateUrl: './liquidacion.html',
-  styleUrls: ['./liquidacion.css'],
+  templateUrl: './categoria-productos.html',
+  styleUrls: ['./categoria-productos.css'],
 })
-export class Liquidacion implements OnInit {
+export class CategoriaProductos implements OnInit {
   protected productosService = inject(ProductosService);
   protected categoryService = inject(CategoryService);
+  private route = inject(ActivatedRoute);
 
+  categoriaId = '';
   busqueda = '';
-  filtroCategoria = '';
+
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.categoriaId = params['id'];
+      this.productosService.getAllProductos();
+      this.categoryService.getCategorias({ limit: 100 });
+    });
+  }
+
+  protected readonly categoriaActual = computed(() => {
+    return this.categoryService.categorias().find(c => c.id === this.categoriaId);
+  });
+
+  protected readonly categoriaNombre = computed(() => {
+    const categoria = this.categoriaActual();
+    return categoria ? categoria.nombre : 'Categoría no encontrada';
+  });
 
   protected readonly productosFiltrados = computed(() => {
     const productos = this.productosService.productosCompletos();
 
-    // Filtrar solo productos en oferta
-    let filtrados = productos.filter(p => p.oferta);
-
-    // Filtrar por categoría si está seleccionada
-    if (this.filtroCategoria) {
-      filtrados = filtrados.filter(p => p.categoriaId === this.filtroCategoria);
-    }
+    // Filtrar por categoría actual
+    let filtrados = productos.filter(p => p.categoriaId === this.categoriaId);
 
     // Filtrar por búsqueda
     if (this.busqueda) {
@@ -43,8 +57,4 @@ export class Liquidacion implements OnInit {
     return filtrados;
   });
 
-  ngOnInit(): void {
-    this.productosService.getAllProductos();
-    this.categoryService.getCategorias({ limit: 100 });
-  }
 }

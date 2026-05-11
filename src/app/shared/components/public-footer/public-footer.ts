@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-public-footer',
+  standalone: true,
   imports: [MatToolbarModule, MatButtonModule, RouterModule,MatIconModule],
   templateUrl: './public-footer.html',
   styleUrl: './public-footer.css',

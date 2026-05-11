@@ -2,24 +2,23 @@
   background: #121212;
   color: #ccc;
   text-align: center;
-  padding: 32px 16px;
+  padding: 15px 16px;
 }
 
 .socials {
+  margin-top: 16px;
   display: flex;
   justify-content: center;
-  gap: 24px;
-  margin-bottom: 12px;
+  gap: 25px;
 }
 
-.social-icon {
-  width: 28px;
-  height: 28px;
-  filter: invert(1) opacity(0.75);
-  transition: transform 0.2s ease, opacity 0.2s ease;
+.social-link i {
+  font-size: 24px; /* O el tamaño que prefieras */
+  color: white;    /* O el color que definió tu compañera */
+  transition: transform 0.2s;
 }
 
-.social-icon:hover {
-  opacity: 1;
-  transform: scale(1.15);
+.social-link i:hover {
+  transform: scale(1.1); /* Un pequeño efecto al pasar el mouse */
+  color: #7aa2ff;;        /* Por ejemplo, verde para whatsapp */
 }

@@ -2,11 +2,10 @@
   <app-hero-banner [producto]="producto"></app-hero-banner>
 }
 
-<!-- TOP CATEGORIES -->
-<section class="section">
+<!-- Top Categories -->
+<section class="section section--highlight">
   <div class="section-header">
-    <h2>Top Categories</h2>
-    <a class="link">View Catalog →</a>
+    <h2>Top Categorias</h2>
   </div>
 
   <div class="categories">
@@ -17,32 +16,42 @@
   </div>
 </section>
 
-<!-- FEATURED PRODUCTS -->
-
-<!-- FEATURED PRODUCTS GRID -->
-<section class="section">
+<!-- Featured Products -->
+<section class="section section--highlight">
   <div class="section-header">
     <h2>Top Productos</h2>
-    <p>Explora nuestra selección de hardware premium</p>
   </div>
 
-<div class="products-grid">
-  @for (item of productosGrid(); track item.id) {
-    <app-card-producto-carrito [producto]="item"></app-card-producto-carrito>
-  }
-</div>
+  <div class="products-grid">
+    @for (item of productosGrid(); track item.id) {
+      <app-card-producto-carrito [producto]="item"></app-card-producto-carrito>
+    }
+  </div>
 </section>
 
-
-
-<!-- LATEST TECH NEWS -->
-<section class="section">
-  <h2>Latest Tech News</h2>
+<!-- Latest Tech News -->
+<section class="section section--highlight">
+  <div class="section-header">
+    <h2>Noticias Tecnológicas</h2>
+  </div>
 
   <div class="news">
-    <div class="news-card">Quantum Computing in 2026</div>
-    <div class="news-card">Next Gen GPU Trends</div>
-    <div class="news-card">Work From Home Optimization</div>
+    <a href="https://www.theverge.com/tech" target="_blank" rel="noreferrer noopener" class="news-card">
+      <img class="news-card-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80" alt="Inteligencia artificial en retail" loading="lazy" />
+      <h3>El futuro del retail con IA</h3>
+      <p>Descubre cómo la inteligencia artificial está reformando la experiencia de compra.</p>
+    </a>
+
+    <a href="https://techcrunch.com/" target="_blank" rel="noreferrer noopener" class="news-card">
+      <img class="news-card-image" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=80" alt="Hardware gamer" loading="lazy" />
+      <h3>Hardware para gamers en 2026</h3>
+      <p>Lo último en dispositivos y componentes que están dominando el mercado.</p>
+    </a>
+
+    <a href="https://www.wired.com/category/gear/" target="_blank" rel="noreferrer noopener" class="news-card">
+      <img class="news-card-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900&q=80" alt="Gadgets móviles" loading="lazy" />
+      <h3>Tendencias en gadgets móviles</h3>
+      <p>Las innovaciones más recientes en smartphones y wearables.</p>
+    </a>
   </div>
 </section>
-``
