@@ -206,6 +206,11 @@
           <button (click)="guardarProducto()" class="btn-guardar">
             Guardar Producto
           </button>
+          @if (productoEnEdicion) {
+            <button type="button" (click)="cancelarEdicionProducto()" class="btn-cancelar">
+              Cancelar Edición
+            </button>
+          }
         </form>
 
         <div class="tabla-section">
@@ -217,6 +222,7 @@
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Categoría</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -226,6 +232,10 @@
                   <td>{{ prod.precio | currency }}</td>
                   <td>{{ prod.stock }}</td>
                   <td>{{ prod.nombreCategoria }}</td>
+                  <td class="acciones">
+                    <button (click)="editarProducto(prod.id)" class="btn-editar" title="Editar">✏️</button>
+                    <button (click)="eliminarProducto(prod.id)" class="btn-eliminar" title="Eliminar">🗑️</button>
+                  </td>
                 </tr>
               }
             </tbody>
@@ -295,6 +305,11 @@
           <button (click)="guardarCategoria()" class="btn-guardar">
             Guardar Categoría
           </button>
+          @if (categoriaEnEdicion) {
+            <button type="button" (click)="cancelarEdicionCategoria()" class="btn-cancelar">
+              Cancelar Edición
+            </button>
+          }
         </form>
 
         <div class="tabla-section">
@@ -305,6 +320,7 @@
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Productos</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -313,6 +329,10 @@
                   <td>{{ cat.nombre }}</td>
                   <td>{{ cat.descripcion | slice: 0: 50 }}...</td>
                   <td>{{ productosService.productosCompletos().filter(p => p.categoriaId === cat.id).length }}</td>
+                  <td class="acciones">
+                    <button (click)="editarCategoria(cat.id)" class="btn-editar" title="Editar">✏️</button>
+                    <button (click)="eliminarCategoria(cat.id)" class="btn-eliminar" title="Eliminar">🗑️</button>
+                  </td>
                 </tr>
               }
             </tbody>

@@ -1,44 +1,71 @@
 <div class="login-container">
   <div class="login-box">
-    <h1>DVM Store Admin</h1>
+    <h1>DVM Store</h1>
     <p>Inicia sesión con tus credenciales</p>
 
-    <form (ngSubmit)="login()" class="login-form">
+    <form [formGroup]="formularioLogin" (ngSubmit)="login()" class="login-form">
       <div class="form-group">
         <label for="username">Usuario</label>
         <input
           type="text"
           id="username"
-          [(ngModel)]="username"
-          name="username"
-          placeholder="admin"
-          required
+          formControlName="username"
+          placeholder="Tu usuario"
+          [disabled]="authService.cargando()"
+          aria-label="Campo de usuario"
+          [class.input-valid]="esValidoVisualmente('username')"
+          [class.input-error]="tieneErrorVisualmente('username')"
         />
+        @if (tieneErrorVisualmente('username')) {
+          <span class="field-error">{{ obtenerErrorMensaje('username') }}</span>
+        }
       </div>
 
       <div class="form-group">
         <label for="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          [(ngModel)]="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
+        <div class="password-input-group">
+          <input
+            [type]="mostrarPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="Tu contraseña"
+            [disabled]="authService.cargando()"
+            aria-label="Campo de contraseña"
+            [class.input-valid]="esValidoVisualmente('password')"
+            [class.input-error]="tieneErrorVisualmente('password')"
+          />
+          <button 
+            type="button" 
+            class="toggle-password"
+            (click)="toggleMostrarPassword()"
+            [disabled]="authService.cargando()"
+            title="Mostrar/ocultar contraseña"
+          >
+            {{ mostrarPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        @if (tieneErrorVisualmente('password')) {
+          <span class="field-error">{{ obtenerErrorMensaje('password') }}</span>
+        }
       </div>
 
       @if (authService.error()) {
-        <div class="error-message">
-          {{ authService.error() }}
+        <div class="error-message" role="alert">
+          ⚠️ {{ authService.error() }}
         </div>
       }
 
-      <button type="submit" class="login-btn">
-        Iniciar Sesión
+      <button 
+        type="submit" 
+        class="login-btn"
+        [disabled]="formularioLogin.invalid || authService.cargando()"
+      >
+        @if (authService.cargando()) {
+          <span class="spinner"></span> Verificando...
+        } @else {
+          Iniciar Sesión
+        }
       </button>
     </form>
-
-    <p class="hint">Usa: usuario <strong>admin</strong> | contraseña <strong>admin</strong></p>
   </div>
 </div>

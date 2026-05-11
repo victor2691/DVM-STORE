@@ -29,9 +29,23 @@
       <mat-icon>shopping_cart</mat-icon>
     </button>
 
-    <button mat-icon-button routerLink="/login">
-      <mat-icon>account_circle</mat-icon>
-    </button>
+    @if (authService.estaAutenticadoYActivo()) {
+      <!-- Usuario logueado -->
+      <span class="user-info">
+        {{ authService.usuarioActual()?.username }}
+        @if (authService.tieneRol('admin')) {
+          <span class="badge-admin">ADMIN</span>
+        }
+      </span>
+      <button mat-icon-button (click)="logout()" title="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
+    } @else {
+      <!-- Usuario no logueado -->
+      <button mat-icon-button routerLink="/login" title="Iniciar sesión">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    }
   </div>
 
 </mat-toolbar>

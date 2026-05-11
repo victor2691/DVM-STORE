@@ -77,4 +77,87 @@ export class CategoryService {
       },
     });
   }
+
+  // CREATE - Crear nueva categoría
+  crearCategoria(categoria: Omit<Categoria, 'id'>): void {
+    this.cargando.set(true);
+    this.http.post<Categoria>(this.apiUrl, categoria).subscribe({
+      next: (nuevaCategoria) => {
+        const categoriasActuales = this.categorias();
+        this.categorias.set([...categoriasActuales, nuevaCategoria]);
+        this.cargando.set(false);
+        this.error.set(null);
+      },
+      error: () => {
+        this.error.set('Error al crear categoría');
+        this.cargando.set(false);
+      },
+    });
+  }
+
+  // READ - Obtener categoría específica
+  getCategoriaById(id: string): Categoria | undefined {
+    return this.categorias().find(c => c.id === id);
+  }
+
+  // UPDATE - Actualizar categoría completa
+  actualizarCategoria(id: string, categoria: Categoria): void {
+    this.cargando.set(true);
+    this.http.put<Categoria>(`${this.apiUrl}/${id}`, categoria).subscribe({
+      next: (categoriaActualizada) => {
+        const categoriasActuales = this.categorias();
+        const indice = categoriasActuales.findIndex(c => c.id === id);
+        if (indice !== -1) {
+          const nuevasCategorias = [...categoriasActuales];
+          nuevasCategorias[indice] = categoriaActualizada;
+          this.categorias.set(nuevasCategorias);
+        }
+        this.cargando.set(false);
+        this.error.set(null);
+      },
+      error: () => {
+        this.error.set('Error al actualizar categoría');
+        this.cargando.set(false);
+      },
+    });
+  }
+
+  // PATCH - Editar solo algunos campos
+  editarCategoria(id: string, cambios: Partial<Categoria>): void {
+    this.cargando.set(true);
+    this.http.patch<Categoria>(`${this.apiUrl}/${id}`, cambios).subscribe({
+      next: (categoriaActualizada) => {
+        const categoriasActuales = this.categorias();
+        const indice = categoriasActuales.findIndex(c => c.id === id);
+        if (indice !== -1) {
+          const nuevasCategorias = [...categoriasActuales];
+          nuevasCategorias[indice] = categoriaActualizada;
+          this.categorias.set(nuevasCategorias);
+        }
+        this.cargando.set(false);
+        this.error.set(null);
+      },
+      error: () => {
+        this.error.set('Error al editar categoría');
+        this.cargando.set(false);
+      },
+    });
+  }
+
+  // DELETE - Eliminar categoría
+  eliminarCategoria(id: string): void {
+    this.cargando.set(true);
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe({
+      next: () => {
+        const categoriasActuales = this.categorias();
+        this.categorias.set(categoriasActuales.filter(c => c.id !== id));
+        this.cargando.set(false);
+        this.error.set(null);
+      },
+      error: () => {
+        this.error.set('Error al eliminar categoría');
+        this.cargando.set(false);
+      },
+    });
+  }
 }

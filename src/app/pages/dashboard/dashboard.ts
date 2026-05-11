@@ -24,11 +24,24 @@ export class Dashboard implements OnInit {
   formularioProducto!: FormGroup;
   formularioCategoria!: FormGroup;
 
+  // Estados para edición
+  productoEnEdicion: string | null = null;
+  categoriaEnEdicion: string | null = null;
+
   constructor() {
-    // Verificar autenticación
-    if (!this.authService.estaAutenticado()) {
+    // Verificar autenticación y rol de admin
+    if (!this.authService.estaAutenticadoYActivo()) {
       this.router.navigate(['/login']);
+      return;
     }
+
+    // Verificar que sea admin
+    if (!this.authService.tieneRol('admin')) {
+      console.warn('Acceso denegado: usuario no es administrador');
+      this.router.navigate(['/catalogo']);
+      return;
+    }
+
     this.inicializarFormularios();
   }
 
@@ -61,24 +74,120 @@ export class Dashboard implements OnInit {
 
   guardarProducto(): void {
     if (this.formularioProducto.valid) {
-      // Simulación - En producción, enviarías al servidor
-      console.log('Producto guardado:', this.formularioProducto.value);
-      alert('Producto guardado exitosamente');
+      const datos = this.formularioProducto.value;
+      
+      if (this.productoEnEdicion) {
+        // ACTUALIZAR producto existente
+        this.productosService.actualizarProducto(this.productoEnEdicion, {
+          ...datos,
+          id: this.productoEnEdicion,
+          categoriaId: datos.categoria
+        });
+        this.productoEnEdicion = null;
+      } else {
+        // CREAR nuevo producto
+        this.productosService.crearProducto({
+          ...datos,
+          id: Date.now().toString(),
+          categoriaId: datos.categoria
+        });
+      }
+      
       this.formularioProducto.reset();
     } else {
       this.marcarCamposComoTocados(this.formularioProducto);
     }
   }
 
+  editarProducto(id: string): void {
+    const producto = this.productosService.getProductoById(id);
+    if (producto) {
+      this.productoEnEdicion = id;
+      this.formularioProducto.patchValue({
+        nombre: producto.nombre,
+        categoria: producto.categoriaId,
+        precio: producto.precio,
+        stock: producto.stock,
+        descripcion: producto.descripcion,
+        imagenUrl: producto.imagenUrl,
+        destacado: producto.destacado,
+        oferta: producto.oferta
+      });
+      // Scroll al formulario
+      const elemento = document.querySelector('.form-group');
+      elemento?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  eliminarProducto(id: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      this.productosService.eliminarProducto(id);
+      if (this.productoEnEdicion === id) {
+        this.productoEnEdicion = null;
+        this.formularioProducto.reset();
+      }
+    }
+  }
+
+  cancelarEdicionProducto(): void {
+    this.productoEnEdicion = null;
+    this.formularioProducto.reset();
+  }
+
   guardarCategoria(): void {
     if (this.formularioCategoria.valid) {
-      // Simulación - En producción, enviarías al servidor
-      console.log('Categoría guardada:', this.formularioCategoria.value);
-      alert('Categoría guardada exitosamente');
+      const datos = this.formularioCategoria.value;
+      
+      if (this.categoriaEnEdicion) {
+        // ACTUALIZAR categoría existente
+        this.categoryService.actualizarCategoria(this.categoriaEnEdicion, {
+          ...datos,
+          id: this.categoriaEnEdicion
+        });
+        this.categoriaEnEdicion = null;
+      } else {
+        // CREAR nueva categoría
+        this.categoryService.crearCategoria({
+          ...datos,
+          id: Date.now().toString()
+        });
+      }
+      
       this.formularioCategoria.reset();
     } else {
       this.marcarCamposComoTocados(this.formularioCategoria);
     }
+  }
+
+  editarCategoria(id: string): void {
+    const categoria = this.categoryService.getCategoriaById(id);
+    if (categoria) {
+      this.categoriaEnEdicion = id;
+      this.formularioCategoria.patchValue({
+        nombre: categoria.nombre,
+        descripcion: categoria.descripcion,
+        imagenUrl: categoria.imagenUrl,
+        slug: categoria.slug
+      });
+      // Scroll al formulario
+      const elemento = document.querySelector('.form-group');
+      elemento?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  eliminarCategoria(id: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
+      this.categoryService.eliminarCategoria(id);
+      if (this.categoriaEnEdicion === id) {
+        this.categoriaEnEdicion = null;
+        this.formularioCategoria.reset();
+      }
+    }
+  }
+
+  cancelarEdicionCategoria(): void {
+    this.categoriaEnEdicion = null;
+    this.formularioCategoria.reset();
   }
 
   logout(): void {
