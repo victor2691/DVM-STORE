@@ -21,7 +21,7 @@
 
   <!-- Derecha -->
   <div class="right">
-    <button mat-icon-button>
+    <button mat-icon-button (click)="toggleSearchModal()" aria-label="Buscar">
       <mat-icon>search</mat-icon>
     </button>
 
@@ -49,3 +49,100 @@
   </div>
 
 </mat-toolbar>
+
+<!-- 🔍 MODAL DE BÚSQUEDA -->
+@if (searchModalOpen()) {
+  <div class="search-overlay" (click)="closeSearchModal()"></div>
+
+  <div class="search-modal">
+    <!-- Header del modal -->
+    <div class="search-modal-header">
+      <h2>Buscar Productos</h2>
+      <button mat-icon-button (click)="closeSearchModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Contenido del modal -->
+    <div class="search-modal-content">
+      <!-- Búsqueda por texto -->
+      <div class="search-input-container">
+        <input
+          type="text"
+          placeholder="Buscar por nombre o descripción..."
+          [(ngModel)]="searchService.searchTerm"
+          class="search-input"
+        />
+      </div>
+
+      <!-- Filtros -->
+      <div class="search-filters">
+        <!-- Filtro de categoría -->
+        <div class="filter-group">
+          <label>Categoría</label>
+          <select
+            [(ngModel)]="searchService.selectedCategory"
+            class="filter-select"
+          >
+            <option value="">Todas las categorías</option>
+            @for (cat of categorias(); track cat.id) {
+              <option [value]="cat.nombre">{{ cat.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Filtro de precio mínimo -->
+        <div class="filter-group">
+          <label>Precio mínimo: ${{ searchService.priceMin() }}</label>
+          <input
+            type="range"
+            min="0"
+            max="10000"
+            [value]="searchService.priceMin()"
+            (input)="searchService.priceMin.set($any($event.target).value)"
+            class="filter-range"
+          />
+        </div>
+
+        <!-- Filtro de precio máximo -->
+        <div class="filter-group">
+          <label>Precio máximo: ${{ searchService.priceMax() }}</label>
+          <input
+            type="range"
+            min="0"
+            max="10000"
+            [value]="searchService.priceMax()"
+            (input)="searchService.priceMax.set($any($event.target).value)"
+            class="filter-range"
+          />
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="search-actions">
+        <button (click)="resetFiltros()" class="btn-reset">
+          <mat-icon>refresh</mat-icon>
+          Limpiar Filtros
+        </button>
+      </div>
+
+      <!-- Resultados -->
+      <div class="search-results">
+        @if (searchService.productosFiltered().length > 0) {
+          <h3>Resultados ({{ searchService.productosFiltered().length }})</h3>
+          <div class="results-grid">
+            @for (producto of searchService.productosFiltered(); track producto.id) {
+              <div class="result-card" routerLink="/productos/{{ producto.id }}">
+                <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+                <h4>{{ producto.nombre }}</h4>
+                <p class="price">${{ producto.precio }}</p>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="no-results">No se encontraron productos</p>
+        }
+      </div>
+    </div>
+  </div>
+}
