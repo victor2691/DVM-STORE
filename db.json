@@ -143,6 +143,14 @@
       "password": "Cliente123!",
       "rol": "cliente",
       "activo": true
+    },
+    {
+      "nombreCompleto": "Daniel",
+      "email": "dani@gmail.com",
+      "password": "123123",
+      "activo": true,
+      "rol": "admin",
+      "id": "w99teIc"
     }
   ]
 }

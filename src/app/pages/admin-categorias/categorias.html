@@ -1,0 +1,160 @@
+<div class="inventario-shell">
+  <div class="inventario-header">
+    <div>
+      <p class="inventario-eyebrow">Panel de categorías</p>
+      <h1>Gestión de Categorías</h1>
+      <p class="inventario-copy">Administra las categorías de la tienda con el mismo flujo de altas, cambios y bajas del inventario.</p>
+    </div>
+
+    <button mat-flat-button color="primary" type="button" (click)="abrirFormularioNuevo()" [disabled]="cargando()">
+      Agregar categoría
+    </button>
+  </div>
+
+  <section class="resumen-grid" aria-label="Resumen de categorías">
+    <article class="resumen-card">
+      <span class="resumen-label">Categorías</span>
+      <strong class="resumen-value">{{ resumen().total }}</strong>
+      <span class="resumen-meta">Total registradas</span>
+    </article>
+
+    <article class="resumen-card">
+      <span class="resumen-label">Activas</span>
+      <strong class="resumen-value">{{ resumen().activas }}</strong>
+      <span class="resumen-meta">Visibles en tienda</span>
+    </article>
+
+    <article class="resumen-card">
+      <span class="resumen-label">Con productos</span>
+      <strong class="resumen-value">{{ resumen().conProductos }}</strong>
+      <span class="resumen-meta">Relacionadas al catálogo</span>
+    </article>
+
+    <article class="resumen-card resumen-card--alert">
+      <span class="resumen-label">Inactivas</span>
+      <strong class="resumen-value">{{ resumen().inactivas }}</strong>
+      <span class="resumen-meta">Ocultas actualmente</span>
+    </article>
+  </section>
+
+  @if (mostrarFormulario()) {
+    <mat-card class="formulario-card" id="categorias-formulario">
+      <mat-card-header>
+        <mat-card-title>{{ editandoId() ? 'Editar categoría' : 'Nueva categoría' }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="grid-form" [formGroup]="formulario" (ngSubmit)="guardar()">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" />
+            @if (formulario.controls.nombre.invalid && formulario.controls.nombre.touched) {
+              <mat-error>Nombre requerido (mín. 3 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Slug</mat-label>
+            <input matInput formControlName="slug" />
+            <mat-hint>Se usa en las rutas públicas de categoría.</mat-hint>
+            @if (formulario.controls.slug.invalid && formulario.controls.slug.touched) {
+              <mat-error>Slug requerido (mín. 3 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="descripcion" rows="4"></textarea>
+            @if (formulario.controls.descripcion.invalid && formulario.controls.descripcion.touched) {
+              <mat-error>Descripción requerida (mín. 10 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="toggle-group">
+            <mat-slide-toggle formControlName="activo">Activa</mat-slide-toggle>
+          </div>
+
+          <div class="button-group">
+            <button mat-raised-button color="primary" type="submit" [disabled]="formulario.invalid || cargando()">
+              {{ editandoId() ? 'Actualizar' : 'Crear' }}
+            </button>
+            <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (error(); as mensajeError) {
+    <div class="error-alert" role="alert">{{ mensajeError }}</div>
+  }
+
+  @if (categoriasDetalladas().length > 0) {
+    <div class="categorias-grid" role="list" aria-label="Listado de categorías">
+      @for (categoria of categoriasDetalladas(); track categoria.id) {
+        <article class="categoria-card" role="listitem">
+          <div class="categoria-card__header">
+            <div class="categoria-card__icon" aria-hidden="true">
+              <mat-icon>category</mat-icon>
+            </div>
+
+            <div>
+              <div class="categoria-card__topline">
+                <h2>{{ categoria.nombre }}</h2>
+                <span [class]="claseEstado(categoria)">{{ estadoCategoria(categoria) }}</span>
+              </div>
+              <p class="categoria-card__slug">/{{ categoria.slug }}</p>
+            </div>
+          </div>
+
+          <p class="categoria-card__description">{{ categoria.descripcion }}</p>
+
+          <div class="categoria-card__stats" aria-label="Métricas de la categoría">
+            <div class="stat-pill">
+              <strong>{{ categoria.totalProductos }}</strong>
+              <span>productos</span>
+            </div>
+            <div class="stat-pill">
+              <strong>{{ categoria.productosActivos }}</strong>
+              <span>activos</span>
+            </div>
+            <div class="stat-pill">
+              <strong>{{ categoria.stockTotal }}</strong>
+              <span>stock</span>
+            </div>
+          </div>
+
+          <div class="producto-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="editar(categoria)"
+              [disabled]="cargando()"
+            >
+              Editar
+            </button>
+
+            <button
+              mat-flat-button
+              color="warn"
+              type="button"
+              (click)="eliminar(categoria)"
+              [disabled]="cargando()"
+              [matTooltip]="categoria.totalProductos > 0 ? 'Eliminar también dejará productos sin categoría visible.' : 'Eliminar categoría'"
+            >
+              Eliminar
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-category">
+      <mat-icon>category</mat-icon>
+      <div>
+        <strong>No hay categorías registradas</strong>
+        <p>Crea la primera categoría para empezar a organizar el catálogo.</p>
+      </div>
+    </div>
+  }
+</div>

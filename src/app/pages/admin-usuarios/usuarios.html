@@ -1,0 +1,193 @@
+<div class="inventario-shell">
+  <div class="inventario-header">
+    <div>
+      <p class="inventario-eyebrow">Panel de usuarios</p>
+      <h1>Gestión de Usuarios</h1>
+      <p class="inventario-copy">Administra cuentas de clientes y administradores con altas, ediciones y bajas desde una vista de lista.</p>
+    </div>
+
+    <button mat-flat-button color="primary" type="button" (click)="abrirFormularioNuevo()" [disabled]="cargando()">
+      Agregar usuario
+    </button>
+  </div>
+
+  <section class="resumen-grid" aria-label="Resumen de usuarios">
+    <article class="resumen-card">
+      <span class="resumen-label">Usuarios</span>
+      <strong class="resumen-value">{{ resumen().total }}</strong>
+      <span class="resumen-meta">Registros totales</span>
+    </article>
+
+    <article class="resumen-card">
+      <span class="resumen-label">Clientes</span>
+      <strong class="resumen-value">{{ resumen().clientes }}</strong>
+      <span class="resumen-meta">Usuarios de compra</span>
+    </article>
+
+    <article class="resumen-card">
+      <span class="resumen-label">Admins</span>
+      <strong class="resumen-value">{{ resumen().admins }}</strong>
+      <span class="resumen-meta">Usuarios con acceso admin</span>
+    </article>
+
+    <article class="resumen-card resumen-card--alert">
+      <span class="resumen-label">Inactivos</span>
+      <strong class="resumen-value">{{ resumen().inactivos }}</strong>
+      <span class="resumen-meta">Bloqueados actualmente</span>
+    </article>
+  </section>
+
+  <section class="filtros-usuarios" aria-label="Filtros de usuarios">
+    <div class="filtros-usuarios__group" role="group" aria-label="Filtrar por rol">
+      <button
+        type="button"
+        class="filtro-chip"
+        [class.filtro-chip--active]="filtroRol() === 'todos'"
+        (click)="cambiarFiltro('todos')"
+      >
+        Todos
+        <span>{{ resumen().total }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="filtro-chip"
+        [class.filtro-chip--active]="filtroRol() === 'cliente'"
+        (click)="cambiarFiltro('cliente')"
+      >
+        Clientes
+        <span>{{ resumen().clientes }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="filtro-chip"
+        [class.filtro-chip--active]="filtroRol() === 'admin'"
+        (click)="cambiarFiltro('admin')"
+      >
+        Admins
+        <span>{{ resumen().admins }}</span>
+      </button>
+    </div>
+
+    <p class="filtros-usuarios__summary">
+      Mostrando {{ usuariosFiltrados().length }} usuario(s)
+      @if (filtroRol() !== 'todos') {
+        <span> con rol {{ filtroRol() }}</span>
+      }
+    </p>
+  </section>
+
+  @if (mostrarFormulario()) {
+    <mat-card class="formulario-card">
+      <mat-card-header>
+        <mat-card-title>{{ editandoId() ? 'Editar usuario' : 'Nuevo usuario' }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="grid-form" [formGroup]="formulario" (ngSubmit)="guardar()">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre completo</mat-label>
+            <input matInput formControlName="nombreCompleto" />
+            @if (formulario.controls.nombreCompleto.invalid && formulario.controls.nombreCompleto.touched) {
+              <mat-error>Nombre requerido (mín. 4 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput type="email" formControlName="email" />
+            @if (formulario.controls.email.invalid && formulario.controls.email.touched) {
+              <mat-error>Correo válido requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="text" formControlName="password" />
+            @if (formulario.controls.password.invalid && formulario.controls.password.touched) {
+              <mat-error>Contraseña requerida (mín. 6 caracteres)</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Rol</mat-label>
+            <mat-select formControlName="rol">
+              <mat-option value="cliente">Cliente</mat-option>
+              <mat-option value="admin">Admin</mat-option>
+            </mat-select>
+            @if (formulario.controls.rol.invalid && formulario.controls.rol.touched) {
+              <mat-error>Rol requerido</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="toggle-group">
+            <mat-slide-toggle formControlName="activo">Usuario activo</mat-slide-toggle>
+          </div>
+
+          <div class="button-group">
+            <button mat-raised-button color="primary" type="submit" [disabled]="formulario.invalid || cargando()">
+              {{ editandoId() ? 'Actualizar' : 'Crear' }}
+            </button>
+            <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (error(); as mensajeError) {
+    <div class="error-alert" role="alert">{{ mensajeError }}</div>
+  }
+
+  @if (usuariosFiltrados().length > 0) {
+    <div class="usuarios-grid" role="list" aria-label="Listado de usuarios">
+      @for (usuario of usuariosFiltrados(); track usuario.id) {
+        <article class="usuario-card" role="listitem">
+          <div class="usuario-card__header">
+            <div class="usuario-card__icon" aria-hidden="true">
+              <mat-icon>person</mat-icon>
+            </div>
+
+            <div>
+              <div class="usuario-card__topline">
+                <h2>{{ usuario.nombreCompleto }}</h2>
+                <span [class]="claseEstado(usuario)">{{ estadoUsuario(usuario) }}</span>
+              </div>
+              <p class="usuario-card__email">{{ usuario.email }}</p>
+            </div>
+          </div>
+
+          <div class="usuario-card__stats" aria-label="Datos del usuario">
+            <div class="stat-pill">
+              <strong>{{ usuario.rol }}</strong>
+              <span>rol</span>
+            </div>
+            <div class="stat-pill">
+              <strong>{{ usuario.id }}</strong>
+              <span>id</span>
+            </div>
+          </div>
+
+          <div class="usuario-actions">
+            <button mat-stroked-button type="button" (click)="editar(usuario)" [disabled]="cargando()">
+              Editar
+            </button>
+
+            <button mat-flat-button color="warn" type="button" (click)="eliminar(usuario)" [disabled]="cargando()">
+              Eliminar
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <mat-icon>group</mat-icon>
+      <div>
+        <strong>No hay usuarios para este filtro</strong>
+        <p>Ajusta el filtro actual o crea un nuevo usuario para verlo aquí.</p>
+      </div>
+    </div>
+  }
+</div>

@@ -11,6 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
     <mat-toolbar class="admin-toolbar" color="primary">
       <span class="admin-title">DVM Store - Panel Admin</span>
       <span class="spacer"></span>
+      <button mat-button routerLink="/admin/inventario" routerLinkActive="nav-button--active" aria-label="Ir a inventario">
+        Inventario
+      </button>
+      <button mat-button routerLink="/admin/categorias" routerLinkActive="nav-button--active" aria-label="Ir a categorías">
+        Categorías
+      </button>
       <button mat-stroked-button class="home-button" routerLink="/" aria-label="Volver al inicio">
         Inicio
       </button>
@@ -39,6 +45,10 @@ import { MatButtonModule } from '@angular/material/button';
       gap: 0.45rem;
       border-color: rgba(255, 255, 255, 0.45);
       color: #fff;
+    }
+
+    .nav-button--active {
+      background: rgba(255, 255, 255, 0.14);
     }
 
     .admin-content {

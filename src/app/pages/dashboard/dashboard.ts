@@ -1,27 +1,33 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth-service';
 import { ProductosService } from '../../core/services/productos-services';
 import { CategoryService } from '../../core/services/categoria-service';
 import { InventarioPage } from '../admin-inventario/inventario';
+import { AdminCategoriasPage } from '../admin-categorias/categorias';
+import { AdminUsuariosPage } from '../admin-usuarios/usuarios';
+
+type DashboardSection = 'estadisticas' | 'productos' | 'categorias' | 'usuarios' | 'inventario';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, InventarioPage],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, InventarioPage, AdminCategoriasPage, AdminUsuariosPage],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
 })
 export class Dashboard implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   protected authService = inject(AuthService);
   protected productosService = inject(ProductosService);
   protected categoryService = inject(CategoryService);
 
-  seccionActiva: 'estadisticas' | 'productos' | 'categorias' | 'inventario' = 'estadisticas';
+  seccionActiva: DashboardSection = 'estadisticas';
   formularioProducto!: FormGroup;
   formularioCategoria!: FormGroup;
 
@@ -36,6 +42,16 @@ export class Dashboard implements OnInit {
   ngOnInit(): void {
     this.productosService.getAllProductos();
     this.categoryService.getCategorias({ limit: 100 });
+
+    this.activatedRoute.queryParamMap
+      .pipe(takeUntilDestroyed())
+      .subscribe((params) => {
+        const section = params.get('section');
+
+        if (this.esSeccionValida(section)) {
+          this.seccionActiva = section;
+        }
+      });
   }
 
   private inicializarFormularios(): void {
@@ -87,6 +103,10 @@ export class Dashboard implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  protected cambiarSeccion(seccion: DashboardSection): void {
+    this.seccionActiva = seccion;
+  }
+
   private marcarCamposComoTocados(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key)?.markAsTouched();
@@ -110,5 +130,9 @@ export class Dashboard implements OnInit {
       return `Formato inválido`;
     }
     return 'Campo inválido';
+  }
+
+  private esSeccionValida(valor: string | null): valor is DashboardSection {
+    return valor === 'estadisticas' || valor === 'productos' || valor === 'categorias' || valor === 'usuarios' || valor === 'inventario';
   }
 }

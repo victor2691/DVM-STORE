@@ -7,28 +7,39 @@
     <nav class="menu">
       <button
         [class.activo]="seccionActiva === 'estadisticas'"
-        (click)="seccionActiva = 'estadisticas'"
+        (click)="cambiarSeccion('estadisticas')"
         class="menu-item"
       >
         📊 Estadísticas
       </button>
       <button
         [class.activo]="seccionActiva === 'productos'"
-        (click)="seccionActiva = 'productos'"
+        (click)="cambiarSeccion('productos')"
         class="menu-item"
       >
         📦 Productos
       </button>
       <button
         [class.activo]="seccionActiva === 'categorias'"
-        (click)="seccionActiva = 'categorias'"
+        (click)="cambiarSeccion('categorias')"
+        routerLink="/admin/dashboard"
+        [queryParams]="{ section: 'categorias' }"
         class="menu-item"
       >
         🏷️ Categorías
       </button>
       <button
+        [class.activo]="seccionActiva === 'usuarios'"
+        (click)="cambiarSeccion('usuarios')"
+        routerLink="/admin/dashboard"
+        [queryParams]="{ section: 'usuarios' }"
+        class="menu-item"
+      >
+        👥 Usuarios
+      </button>
+      <button
         [class.activo]="seccionActiva === 'inventario'"
-        (click)="seccionActiva = 'inventario'"
+        (click)="cambiarSeccion('inventario')"
         class="menu-item"
       >
         📦 Inventario de Dani
@@ -244,87 +255,14 @@
     <!-- Gestión de Categorías -->
     @if (seccionActiva === 'categorias') {
       <section class="seccion">
-        <h2>Gestión de Categorías</h2>
+        <app-admin-categorias></app-admin-categorias>
+      </section>
+    }
 
-        <form [formGroup]="formularioCategoria" class="formulario-admin">
-          <div class="form-group">
-            <label>Nombre de la Categoría *</label>
-            <input
-              type="text"
-              formControlName="nombre"
-              placeholder="Ej: Laptops"
-              class="input"
-            />
-            @if (formularioCategoria.get('nombre')?.touched && formularioCategoria.get('nombre')?.invalid) {
-              <span class="error">{{ obtenerErrorMensaje('nombre', formularioCategoria) }}</span>
-            }
-          </div>
-
-          <div class="form-group">
-            <label>Slug (URL) *</label>
-            <input
-              type="text"
-              formControlName="slug"
-              placeholder="laptops"
-              class="input"
-            />
-            @if (formularioCategoria.get('slug')?.touched && formularioCategoria.get('slug')?.invalid) {
-              <span class="error">{{ obtenerErrorMensaje('slug', formularioCategoria) }}</span>
-            }
-          </div>
-
-          <div class="form-group">
-            <label>Descripción *</label>
-            <textarea
-              formControlName="descripcion"
-              placeholder="Describe la categoría..."
-              class="input textarea"
-              rows="3"
-            ></textarea>
-            @if (formularioCategoria.get('descripcion')?.touched && formularioCategoria.get('descripcion')?.invalid) {
-              <span class="error">{{ obtenerErrorMensaje('descripcion', formularioCategoria) }}</span>
-            }
-          </div>
-
-          <div class="form-group">
-            <label>URL de Imagen *</label>
-            <input
-              type="text"
-              formControlName="imagenUrl"
-              placeholder="/computer1.jpg"
-              class="input"
-            />
-            @if (formularioCategoria.get('imagenUrl')?.touched && formularioCategoria.get('imagenUrl')?.invalid) {
-              <span class="error">{{ obtenerErrorMensaje('imagenUrl', formularioCategoria) }}</span>
-            }
-          </div>
-
-          <button (click)="guardarCategoria()" class="btn-guardar">
-            Guardar Categoría
-          </button>
-        </form>
-
-        <div class="tabla-section">
-          <h3>Categorías Registradas</h3>
-          <table class="tabla">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Productos</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (cat of categoryService.categorias(); track cat.id) {
-                <tr>
-                  <td>{{ cat.nombre }}</td>
-                  <td>{{ cat.descripcion | slice: 0: 50 }}...</td>
-                  <td>{{ productosService.productosCompletos().filter(p => p.categoriaId === cat.id).length }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+    <!-- Gestión de Clientes -->
+    @if (seccionActiva === 'usuarios') {
+      <section class="seccion">
+        <app-admin-usuarios></app-admin-usuarios>
       </section>
     }
 
