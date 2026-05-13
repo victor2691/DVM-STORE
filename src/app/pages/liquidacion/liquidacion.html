@@ -5,13 +5,7 @@
   </div>
 
   <div class="filtros">
-    <input
-      type="text"
-      [(ngModel)]="busqueda"
-      placeholder="Buscar productos..."
-      class="input-busqueda"
-    />
-    <select [(ngModel)]="filtroCategoria" class="input-filtro">
+    <select [ngModel]="filtroCategoria()" (ngModelChange)="filtroCategoria.set($event)" class="input-filtro">
       <option value="">Todas las categorías</option>
       @for (cat of categoryService.categorias(); track cat.id) {
         <option [value]="cat.id">{{ cat.nombre }}</option>

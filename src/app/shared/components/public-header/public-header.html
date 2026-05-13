@@ -1,0 +1,90 @@
+<mat-toolbar class="header" color="primary">
+
+  <!-- Izquierda -->
+  <div class="left" routerLink="/">
+
+   <img
+      src="/logofinal.svg"
+      alt="DVM Store"
+      class="logo"
+    />
+
+  </div>
+
+  <!-- Centro -->
+  <div class="center">
+    <button mat-button routerLink="/catalogo">Productos</button>
+    <button mat-button routerLink="/liquidacion">Liquidación</button>
+    <button mat-button routerLink="/mas-vendidos">Más vendidos</button>
+  </div>
+
+  <!-- Derecha -->
+  <div class="right">
+    <button mat-icon-button (click)="abrirBusqueda()" aria-label="Buscar">
+      <mat-icon>search</mat-icon>
+    </button>
+
+    <button mat-icon-button routerLink="/carrito" class="cart-btn" [class.has-items]="cartService.totalItems() > 0" aria-label="Ver carrito">
+      <mat-icon>shopping_cart</mat-icon>
+      @if (cartService.totalItems() > 0) {
+        <span class="cart-badge">{{ cartService.totalItems() }}</span>
+      }
+    </button>
+
+    @if (authService.isAuthenticated()) {
+      <button mat-icon-button type="button" (click)="logout()" aria-label="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
+    } @else {
+      <button mat-icon-button routerLink="/login">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    }
+  </div>
+
+</mat-toolbar>
+
+<!-- MODAL DE BÚSQUEDA -->
+@if (searchService.modalAbierto()) {
+  <div class="search-overlay" (click)="cerrarBusqueda()"></div>
+
+  <div class="search-modal">
+    <!-- Header del modal -->
+    <div class="search-modal-header">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar productos..."
+        (input)="onSearchInput($event)"
+        autofocus
+      />
+      <button class="close-btn" (click)="cerrarBusqueda()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Resultados -->
+    <div class="search-results">
+      @if (searchService.resultados().length === 0 && searchService.searchQuery() === '') {
+        <div class="no-search">
+          <mat-icon>search</mat-icon>
+          <p>Escribe para buscar productos</p>
+        </div>
+      } @else if (searchService.resultados().length === 0) {
+        <div class="no-results">
+          <mat-icon>package_2</mat-icon>
+          <p>No se encontraron productos</p>
+        </div>
+      } @else {
+        <div class="results-grid">
+          @for (producto of searchService.resultados(); track producto.id) {
+            <div (click)="irAlProducto()">
+              <app-card-producto-carrito [producto]="producto" />
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}
+

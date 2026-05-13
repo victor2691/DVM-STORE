@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductosService } from '../../core/services/productos-services';
@@ -18,30 +18,20 @@ export class ProductCatalog implements OnInit {
   protected readonly categoryService = inject(CategoryService);
   private router = inject(Router);
 
-  filtroCategoria = '';
-  busqueda = '';
+  protected filtroCategoria = signal('');
 
   ngOnInit(): void {
     this.productosService.getAllProductos();
     this.categoryService.getCategorias({ limit: 100 });
   }
 
-  // Productos filtrados por categoría y búsqueda
+  // Productos filtrados por categoría
   protected readonly productosFiltrados = computed(() => {
     let productos = this.productosService.productosCompletos();
 
     // Filtrar por categoría
-    if (this.filtroCategoria) {
-      productos = productos.filter(p => p.categoriaId === this.filtroCategoria);
-    }
-
-    // Filtrar por búsqueda
-    if (this.busqueda) {
-      const search = this.busqueda.toLowerCase();
-      productos = productos.filter(p => 
-        p.nombre.toLowerCase().includes(search) || 
-        p.descripcion.toLowerCase().includes(search)
-      );
+    if (this.filtroCategoria()) {
+      productos = productos.filter(p => p.categoriaId === this.filtroCategoria());
     }
 
     return productos;
@@ -49,10 +39,5 @@ export class ProductCatalog implements OnInit {
 
   verDetalle(productoId: string): void {
     this.router.navigate(['/productos', productoId]);
-  }
-
-  limpiarFiltros(): void {
-    this.filtroCategoria = '';
-    this.busqueda = '';
   }
 }

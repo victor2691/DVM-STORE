@@ -5,29 +5,14 @@
   </div>
 
   <div class="filters-section">
-    <div class="search-box">
-      <input
-        type="text"
-        [(ngModel)]="busqueda"
-        placeholder="Buscar productos..."
-        class="search-input"
-      />
-    </div>
-
     <div class="category-filter">
-      <select [(ngModel)]="filtroCategoria" class="filter-select">
+      <select [ngModel]="filtroCategoria()" (ngModelChange)="filtroCategoria.set($event)" class="filter-select">
         <option value="">Todas las categorías</option>
         @for (cat of categoryService.categorias(); track cat.id) {
           <option [value]="cat.id">{{ cat.nombre }}</option>
         }
       </select>
     </div>
-
-    @if (filtroCategoria || busqueda) {
-      <button (click)="limpiarFiltros()" class="clear-btn">
-        Limpiar filtros
-      </button>
-    }
   </div>
 
   <div class="products-section">
