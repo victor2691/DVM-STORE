@@ -126,7 +126,10 @@
             <h2>{{ grupo.categoria.nombre }}</h2>
             <p>{{ grupo.productos.length }} productos · {{ grupo.disponibles }} disponibles · {{ grupo.agotados }} agotados</p>
           </div>
-          <strong class="categoria-total">${{ grupo.valorInventario | number: '1.0-0' }}</strong>
+          <div class="categoria-total-group">
+            <span class="categoria-total-label">Total stock</span>
+            <strong class="categoria-total">${{ grupo.valorInventario | number: '1.0-0' }}</strong>
+          </div>
         </div>
 
         @if (grupo.productos.length > 0) {

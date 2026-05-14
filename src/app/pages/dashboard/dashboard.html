@@ -13,13 +13,6 @@
         📊 Estadísticas
       </button>
       <button
-        [class.activo]="seccionActiva === 'productos'"
-        (click)="cambiarSeccion('productos')"
-        class="menu-item"
-      >
-        📦 Productos
-      </button>
-      <button
         [class.activo]="seccionActiva === 'categorias'"
         (click)="cambiarSeccion('categorias')"
         routerLink="/admin/dashboard"
@@ -42,7 +35,7 @@
         (click)="cambiarSeccion('inventario')"
         class="menu-item"
       >
-        📦 Inventario de Dani
+        📦 Productos
       </button>
     </nav>
 
@@ -87,6 +80,13 @@
           </div>
         </div>
 
+        <app-admin-stock-chart
+          [data]="stockChartData()"
+          title="Distribucion de stock"
+          subtitle="Grafico Recharts embebido dentro del panel de estadisticas."
+          totalLabel="Stock total"
+        />
+
         <!-- Tabla de productos -->
         <div class="tabla-section">
           <h3>Productos Recientes</h3>
@@ -112,138 +112,6 @@
                       {{ prod.oferta ? 'Sí' : 'No' }}
                     </span>
                   </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </section>
-    }
-
-    <!-- Gestión de Productos -->
-    @if (seccionActiva === 'productos') {
-      <section class="seccion">
-        <h2>Gestión de Productos</h2>
-
-        <form [formGroup]="formularioProducto" class="formulario-admin">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Nombre del Producto *</label>
-              <input
-                type="text"
-                formControlName="nombre"
-                placeholder="Ej: Laptop Gaming"
-                class="input"
-              />
-              @if (formularioProducto.get('nombre')?.touched && formularioProducto.get('nombre')?.invalid) {
-                <span class="error">{{ obtenerErrorMensaje('nombre', formularioProducto) }}</span>
-              }
-            </div>
-
-            <div class="form-group">
-              <label>Categoría *</label>
-              <select formControlName="categoria" class="input">
-                <option value="">Selecciona categoría</option>
-                @for (cat of categoryService.categorias(); track cat.id) {
-                  <option [value]="cat.id">{{ cat.nombre }}</option>
-                }
-              </select>
-              @if (formularioProducto.get('categoria')?.touched && formularioProducto.get('categoria')?.invalid) {
-                <span class="error">{{ obtenerErrorMensaje('categoria', formularioProducto) }}</span>
-              }
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Precio *</label>
-              <input
-                type="number"
-                formControlName="precio"
-                placeholder="999"
-                class="input"
-                min="1"
-              />
-              @if (formularioProducto.get('precio')?.touched && formularioProducto.get('precio')?.invalid) {
-                <span class="error">{{ obtenerErrorMensaje('precio', formularioProducto) }}</span>
-              }
-            </div>
-
-            <div class="form-group">
-              <label>Stock *</label>
-              <input
-                type="number"
-                formControlName="stock"
-                placeholder="0"
-                class="input"
-                min="0"
-              />
-              @if (formularioProducto.get('stock')?.touched && formularioProducto.get('stock')?.invalid) {
-                <span class="error">{{ obtenerErrorMensaje('stock', formularioProducto) }}</span>
-              }
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Descripción *</label>
-            <textarea
-              formControlName="descripcion"
-              placeholder="Describe el producto..."
-              class="input textarea"
-              rows="4"
-            ></textarea>
-            @if (formularioProducto.get('descripcion')?.touched && formularioProducto.get('descripcion')?.invalid) {
-              <span class="error">{{ obtenerErrorMensaje('descripcion', formularioProducto) }}</span>
-            }
-          </div>
-
-          <div class="form-group">
-            <label>URL de Imagen *</label>
-            <input
-              type="text"
-              formControlName="imagenUrl"
-              placeholder="/computer1.jpg"
-              class="input"
-            />
-            @if (formularioProducto.get('imagenUrl')?.touched && formularioProducto.get('imagenUrl')?.invalid) {
-              <span class="error">{{ obtenerErrorMensaje('imagenUrl', formularioProducto) }}</span>
-            }
-          </div>
-
-          <div class="checkboxes">
-            <label class="checkbox">
-              <input type="checkbox" formControlName="destacado" />
-              <span>Producto Destacado</span>
-            </label>
-            <label class="checkbox">
-              <input type="checkbox" formControlName="oferta" />
-              <span>En Oferta</span>
-            </label>
-          </div>
-
-          <button (click)="guardarProducto()" class="btn-guardar">
-            Guardar Producto
-          </button>
-        </form>
-
-        <div class="tabla-section">
-          <h3>Productos Registrados</h3>
-          <table class="tabla">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Categoría</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (prod of productosService.productosCompletos(); track prod.id) {
-                <tr>
-                  <td>{{ prod.nombre }}</td>
-                  <td>{{ prod.precio | currency }}</td>
-                  <td>{{ prod.stock }}</td>
-                  <td>{{ prod.nombreCategoria }}</td>
                 </tr>
               }
             </tbody>

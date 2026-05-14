@@ -70,6 +70,17 @@
             }
           </mat-form-field>
 
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Imagen URL</mat-label>
+            <input matInput formControlName="imagenUrl" />
+            <mat-hint>Pega una URL o carga una imagen desde tu equipo.</mat-hint>
+          </mat-form-field>
+
+          <div class="image-preview-card full-width">
+            <img [src]="vistaPreviaImagen()" alt="Vista previa de categoría" />
+            <span>Vista previa</span>
+          </div>
+
           <div class="toggle-group">
             <mat-slide-toggle formControlName="activo">Activa</mat-slide-toggle>
           </div>
@@ -94,8 +105,8 @@
       @for (categoria of categoriasDetalladas(); track categoria.id) {
         <article class="categoria-card" role="listitem">
           <div class="categoria-card__header">
-            <div class="categoria-card__icon" aria-hidden="true">
-              <mat-icon>category</mat-icon>
+            <div class="categoria-card__media">
+              <img [src]="categoria.imagenUrl" [alt]="categoria.nombre" />
             </div>
 
             <div>

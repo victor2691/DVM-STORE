@@ -42,6 +42,7 @@ export class AdminCategoriasPage {
     nombre: ['', [Validators.required, Validators.minLength(3)]],
     slug: ['', [Validators.required, Validators.minLength(3)]],
     descripcion: ['', [Validators.required, Validators.minLength(10)]],
+    imagenUrl: [''],
     activo: [true],
   });
 
@@ -96,6 +97,7 @@ export class AdminCategoriasPage {
       nombre: '',
       slug: '',
       descripcion: '',
+      imagenUrl: '',
       activo: true,
     });
     this.editandoId.set(null);
@@ -117,7 +119,7 @@ export class AdminCategoriasPage {
       slug,
       descripcion: datos.descripcion.trim(),
       activo: datos.activo,
-      imagenUrl: categoriaActual?.imagenUrl ?? this.obtenerImagenPlaceholder(slug),
+      imagenUrl: datos.imagenUrl.trim() || categoriaActual?.imagenUrl || this.obtenerImagenPlaceholder(slug),
     };
 
     try {
@@ -155,11 +157,48 @@ export class AdminCategoriasPage {
       nombre: categoria.nombre,
       slug: categoria.slug,
       descripcion: categoria.descripcion,
+      imagenUrl: categoria.imagenUrl,
       activo: categoria.activo,
     });
     this.editandoId.set(categoria.id);
     this.mostrarFormulario.set(true);
     this.desplazarAlFormulario();
+  }
+
+  protected cargarImagen(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      this.formulario.controls.imagenUrl.setValue(result);
+    };
+    reader.readAsDataURL(file);
+    input.value = '';
+  }
+
+  protected vistaPreviaImagen(): string {
+    const rawImage = this.formulario.controls.imagenUrl.getRawValue().trim();
+
+    if (rawImage) {
+      return rawImage;
+    }
+
+    const slug = this.normalizarSlug(
+      this.formulario.controls.slug.getRawValue() || this.formulario.controls.nombre.getRawValue()
+    );
+
+    return this.obtenerImagenPlaceholder(slug || 'technology');
   }
 
   protected cancelar(): void {

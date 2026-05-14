@@ -20,8 +20,16 @@ export class LoginPage {
 
   async login(): Promise<void> {
     try {
-      await this.authService.login({ email: this.email, password: this.password });
-      this.router.navigate(['/admin']);
+      const usuario = await this.authService.login({ email: this.email, password: this.password });
+
+      if (usuario.rol === 'admin') {
+        void this.router.navigate(['/admin/dashboard'], {
+          queryParams: { section: 'estadisticas' },
+        });
+        return;
+      }
+
+      void this.router.navigate(['/']);
     } catch (error) {
       // Handle error, maybe show message
     }

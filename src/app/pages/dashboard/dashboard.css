@@ -121,6 +121,10 @@
   gap: 20px;
 }
 
+app-admin-stock-chart {
+  display: block;
+}
+
 .card-stat {
   background: white;
   padding: 25px;
